@@ -16,6 +16,8 @@ public class DiscordBotEnvironment {
 
     private String token;
 
+    private String author;
+
     private String commandPrefix;
 
     public String getToken() {
@@ -24,6 +26,14 @@ public class DiscordBotEnvironment {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public String getCommandPrefix() {

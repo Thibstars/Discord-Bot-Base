@@ -1,8 +1,13 @@
 {
   "properties": [
     {
+      "name": "bot.author",
+      "type": "java.lang.String",
+      "description": "Discord bot author."
+    },
+    {
       "name": "bot.commandPrefix",
       "type": "java.lang.String",
       "description": "Discord bot command prefix."
-  }
-] }
+    }
+  ] }

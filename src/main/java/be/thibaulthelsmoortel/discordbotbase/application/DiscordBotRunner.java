@@ -1,4 +1,4 @@
-package be.thibaulthelsmoortel.discordbotbase;
+package be.thibaulthelsmoortel.discordbotbase.application;
 
 import be.thibaulthelsmoortel.discordbotbase.config.DiscordBotEnvironment;
 import java.util.concurrent.atomic.AtomicBoolean;
