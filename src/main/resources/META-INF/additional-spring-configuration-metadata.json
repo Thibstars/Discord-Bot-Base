@@ -1,13 +1,8 @@
 {
   "properties": [
     {
-      "name": "bot.token",
+      "name": "bot.commandPrefix",
       "type": "java.lang.String",
-      "description": "Discord bot token."
-    },
-    {
-      "name": "bot.command.prefix",
-      "type": "java.lang.String",
-      "description": "Prefix of any command the bot should respond to."
-    }
-  ] }
+      "description": "Discord bot command prefix."
+  }
+] }

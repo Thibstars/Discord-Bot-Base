@@ -1,5 +1,6 @@
 package be.thibaulthelsmoortel.discordbotbase;
 
+import be.thibaulthelsmoortel.discordbotbase.config.DiscordBotEnvironment;
 import java.util.concurrent.atomic.AtomicBoolean;
 import javax.security.auth.login.LoginException;
 import net.dv8tion.jda.core.AccountType;
@@ -9,7 +10,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -23,14 +24,12 @@ public class DiscordBotRunner extends ListenerAdapter implements CommandLineRunn
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DiscordBotRunner.class);
 
-    @Value("${bot.token}")
-    private String token;
+    private final DiscordBotEnvironment discordBotEnvironment;
 
-    @Value("${bot.command.prefix}")
-    private String prefix;
-
-    @Value("${bot.command.alternate.prefix}")
-    private String alternatePrefix;
+    @Autowired
+    public DiscordBotRunner(DiscordBotEnvironment discordBotEnvironment) {
+        this.discordBotEnvironment = discordBotEnvironment;
+    }
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
@@ -40,8 +39,8 @@ public class DiscordBotRunner extends ListenerAdapter implements CommandLineRunn
     }
 
     private void handleMessage(MessageReceivedEvent event, String msg) {
-        if (msg.startsWith(prefix)) {
-            String parsedMessage = msg.substring(prefix.length());
+        if (msg.startsWith(discordBotEnvironment.getCommandPrefix())) {
+            String parsedMessage = msg.substring(discordBotEnvironment.getCommandPrefix().length());
             AtomicBoolean commandRecognised = new AtomicBoolean(false);
 
             if (commandRecognised.get()) {
@@ -56,7 +55,7 @@ public class DiscordBotRunner extends ListenerAdapter implements CommandLineRunn
     public void run(String... args) {
         try {
             new JDABuilder(AccountType.BOT)
-                .setToken(token)
+                .setToken(discordBotEnvironment.getToken())
                 .addEventListener(this)
                 .build()
                 .awaitReady();// There are 2 ways to login, blocking vs async. Blocking guarantees that JDA will be completely loaded.
