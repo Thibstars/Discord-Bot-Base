@@ -10,4 +10,4 @@ jdk:
 before_install:
   - chmod +x mvnw
 
-script: mvn clean verify
+script: mvn clean verify -DfailIfNoTests=true
