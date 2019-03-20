@@ -1,4 +1,4 @@
-# Discord Bot Base #
+# Discord Bot Base [![Build Status](https://travis-ci.org/Thibstars/Discord-Bot-Base.svg?branch=master)](https://travis-ci.org/Thibstars/Discord-Bot-Base) # 
 Discord bot base application.
 
 ## Usage ##
