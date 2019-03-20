@@ -17,6 +17,8 @@ public class DiscordBotEnvironment implements InitializingBean {
 
     private String author;
 
+    private String version;
+
     private String commandPrefix;
 
     public String getToken() {
@@ -25,6 +27,14 @@ public class DiscordBotEnvironment implements InitializingBean {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 
     public String getAuthor() {

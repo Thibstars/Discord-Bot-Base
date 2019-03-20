@@ -6,6 +6,11 @@
       "description": "Discord bot author."
     },
     {
+      "name": "bot.version",
+      "type": "java.lang.String",
+      "description": "Current bot version."
+    },
+    {
       "name": "bot.commandPrefix",
       "type": "java.lang.String",
       "description": "Discord bot command prefix."
