@@ -11,10 +11,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-abstract class BaseTest {
+public abstract class BaseTest {
 
     @SuppressWarnings("unused") // Currently mocking this class is enough (provides mock token)
     @MockBean
     private DiscordBotEnvironment discordBotEnvironment;
-
 }
