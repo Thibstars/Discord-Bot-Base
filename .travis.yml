@@ -1,3 +1,10 @@
-language: java
 sudo: false
+
+language: java
+jdk:
+  - oraclejdk11
+
+os:
+  - linux
+
 script: mvn clean verify
