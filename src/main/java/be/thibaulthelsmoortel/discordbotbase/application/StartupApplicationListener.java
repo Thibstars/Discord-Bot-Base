@@ -33,6 +33,10 @@ public class StartupApplicationListener implements ApplicationListener<Applicati
             LOGGER.info("Author: {}", discordBotEnvironment.getAuthor());
         }
 
+        if (StringUtils.isNotBlank(discordBotEnvironment.getName())) {
+            LOGGER.info("Name: {}", discordBotEnvironment.getName());
+        }
+
         if (StringUtils.isNotBlank(discordBotEnvironment.getVersion())) {
             LOGGER.info("Version: {}", discordBotEnvironment.getVersion());
         }
