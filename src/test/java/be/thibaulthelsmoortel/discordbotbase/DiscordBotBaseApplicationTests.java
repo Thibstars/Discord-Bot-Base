@@ -1,19 +1,17 @@
 package be.thibaulthelsmoortel.discordbotbase;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Thibault Helsmoortel
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class DiscordBotBaseApplicationTests {
+class DiscordBotBaseApplicationTests extends BaseTest {
 
+	@DisplayName("Should load context.")
 	@Test
-	public void contextLoads() {
+	void shouldLoadContext() {
+		// Just testing if the application context loads, no implementation required.
 	}
 
 }

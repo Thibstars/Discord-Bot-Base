@@ -1,20 +1,17 @@
 package be.thibaulthelsmoortel.discordbotbase.config;
 
 import be.thibaulthelsmoortel.discordbotbase.exceptions.MissingTokenException;
-import javax.annotation.PostConstruct;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.stereotype.Component;
 
 /**
- * Discord bot environment.
+ * Discord bot environment properties.
  *
  * @author Thibault Helsmoortel
  */
-@Component
-@PropertySource("classpath:token.properties")
 @ConfigurationProperties(prefix = "bot")
-public class DiscordBotEnvironment {
+public class DiscordBotEnvironment implements InitializingBean {
 
     private String token;
 
@@ -46,9 +43,9 @@ public class DiscordBotEnvironment {
         this.commandPrefix = commandPrefix;
     }
 
-    @PostConstruct
-    public void validateTokenValue() throws MissingTokenException {
-        if (token.isBlank()) {
+    @Override
+    public void afterPropertiesSet() {
+        if (StringUtils.isBlank(token)) {
             throw new MissingTokenException();
         }
     }
