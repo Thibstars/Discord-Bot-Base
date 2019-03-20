@@ -58,9 +58,8 @@ public class DiscordBotRunner extends ListenerAdapter implements CommandLineRunn
                 .setToken(discordBotEnvironment.getToken())
                 .addEventListener(this)
                 .build()
-                .awaitReady();// There are 2 ways to login, blocking vs async. Blocking guarantees that JDA will be completely loaded.
-        } catch (LoginException | InterruptedException e) {
-            // If anything goes wrong in terms of authentication, this is the exception that will represent it
+                .awaitReady();
+        } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
         }
     }
