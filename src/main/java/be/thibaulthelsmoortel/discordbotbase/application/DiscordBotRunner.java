@@ -2,7 +2,6 @@ package be.thibaulthelsmoortel.discordbotbase.application;
 
 import be.thibaulthelsmoortel.discordbotbase.config.DiscordBotEnvironment;
 import java.util.concurrent.atomic.AtomicBoolean;
-import javax.security.auth.login.LoginException;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.Message;
