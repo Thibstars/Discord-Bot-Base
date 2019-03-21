@@ -41,12 +41,12 @@ class AboutCommandTest extends BaseTest {
         when(messageChannel.sendMessage(anyString())).thenReturn(mock(MessageAction.class));
     }
 
-    @DisplayName("Should reply mistery.")
+    @DisplayName("Should reply mystery.")
     @Test
-    void shouldReplyMistery() {
+    void shouldReplyMystery() {
         aboutCommand.execute(messageReceivedEvent, null);
 
-        verifyOneMessageSent("Mistery bot by mistery author.");
+        verifyOneMessageSent("Mystery bot by mystery author.");
     }
 
     @DisplayName("Should reply about message.")

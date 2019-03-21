@@ -31,7 +31,7 @@ public class AboutCommand implements Command {
         if (event instanceof GenericMessageEvent) {
             String message;
             if (StringUtils.isAllBlank(discordBotEnvironment.getName(), discordBotEnvironment.getAuthor())) {
-                message = "Mistery bot by mistery author.";
+                message = "Mystery bot by mystery author.";
             } else {
                 message = (StringUtils.isNotBlank(discordBotEnvironment.getName()) ? discordBotEnvironment.getName() : "Bot ")
                     + (StringUtils.isNotBlank(discordBotEnvironment.getAuthor()) ? " created by " + discordBotEnvironment.getAuthor() + "." : "")
