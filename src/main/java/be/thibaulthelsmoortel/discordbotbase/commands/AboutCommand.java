@@ -35,8 +35,7 @@ public class AboutCommand implements Command {
             } else {
                 message = (StringUtils.isNotBlank(discordBotEnvironment.getName()) ? discordBotEnvironment.getName() : "Bot ")
                     + (StringUtils.isNotBlank(discordBotEnvironment.getAuthor()) ? " created by " + discordBotEnvironment.getAuthor() + "." : "")
-                    + (StringUtils.isNotBlank(discordBotEnvironment.getVersion()) ? " Version: " + discordBotEnvironment.getVersion() : "")
-                    + ".";
+                    + (StringUtils.isNotBlank(discordBotEnvironment.getVersion()) ? " Version: " + discordBotEnvironment.getVersion() : "");
             }
             ((GenericMessageEvent) event).getChannel().sendMessage(message).queue();
         }
