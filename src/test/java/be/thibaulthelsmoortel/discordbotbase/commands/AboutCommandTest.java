@@ -46,10 +46,7 @@ class AboutCommandTest extends BaseTest {
     void shouldReplyMistery() {
         aboutCommand.execute(messageReceivedEvent, null);
 
-        verify(messageReceivedEvent).getChannel();
-        verify(messageChannel).sendMessage("Mistery bot by mistery author.");
-        verifyNoMoreInteractions(messageChannel);
-        verifyNoMoreInteractions(messageReceivedEvent);
+        verifyOneMessageSent("Mistery bot by mistery author.");
     }
 
     @DisplayName("Should reply about message.")
@@ -65,8 +62,12 @@ class AboutCommandTest extends BaseTest {
 
         command.execute(messageReceivedEvent, null);
 
+        verifyOneMessageSent(name + " created by " + author + ".");
+    }
+
+    private void verifyOneMessageSent(String message) {
         verify(messageReceivedEvent).getChannel();
-        verify(messageChannel).sendMessage(name + " created by " + author + ".");
+        verify(messageChannel).sendMessage(message);
         verifyNoMoreInteractions(messageChannel);
         verifyNoMoreInteractions(messageReceivedEvent);
     }
