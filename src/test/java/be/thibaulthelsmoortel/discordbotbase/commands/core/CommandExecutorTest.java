@@ -17,6 +17,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import picocli.CommandLine.Command;
 
 /**
  * @author Thibault Helsmoortel
@@ -48,7 +49,7 @@ class CommandExecutorTest extends BaseTest {
     @DisplayName("Should execute command.")
     @Test
     void shouldExecuteCommand() {
-        String commandName = aboutCommand.getClass().getAnnotation(CommandType.class).name();
+        String commandName = aboutCommand.getClass().getAnnotation(Command.class).name();
 
         boolean executed = commandExecutor.tryExecute(messageReceivedEvent, commandName);
 
@@ -58,7 +59,7 @@ class CommandExecutorTest extends BaseTest {
         verifyNoMoreInteractions(messageChannel);
         verifyNoMoreInteractions(messageReceivedEvent);
 
-        Assertions.assertTrue(executed, "Command should be executed.");
+        Assertions.assertTrue(executed, "BotCommand should be executed.");
     }
 
     @DisplayName("Should not execute command.")
@@ -70,10 +71,10 @@ class CommandExecutorTest extends BaseTest {
 
         // The executor should send back a message:
         verify(messageReceivedEvent).getChannel();
-        verify(messageChannel).sendMessage("Command not recognized...");
+        verify(messageChannel).sendMessage("BotCommand not recognized...");
         verifyNoMoreInteractions(messageChannel);
         verifyNoMoreInteractions(messageReceivedEvent);
 
-        Assertions.assertFalse(executed, "Command should not be executed.");
+        Assertions.assertFalse(executed, "BotCommand should not be executed.");
     }
 }

@@ -1,7 +1,6 @@
 package be.thibaulthelsmoortel.discordbotbase.config;
 
-import be.thibaulthelsmoortel.discordbotbase.commands.core.Command;
-import be.thibaulthelsmoortel.discordbotbase.commands.core.CommandType;
+import be.thibaulthelsmoortel.discordbotbase.commands.core.BotCommand;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -9,6 +8,7 @@ import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import picocli.CommandLine;
 
 /**
  * Configuration preparing commands.
@@ -26,12 +26,12 @@ public class CommandsConfig {
     }
 
     @Bean
-    public List<Command> commands() {
-        Map<String, Object> commands = listableBeanFactory.getBeansWithAnnotation(CommandType.class);
+    public List<BotCommand> commands() {
+        Map<String, Object> commands = listableBeanFactory.getBeansWithAnnotation(CommandLine.Command.class);
 
         return commands.entrySet().stream()
-            .filter(entry -> entry.getValue() instanceof Command)
-            .map(entry -> (Command) entry.getValue())
+            .filter(entry -> entry.getValue() instanceof BotCommand)
+            .map(entry -> (BotCommand) entry.getValue())
             .collect(Collectors.toList());
     }
 
