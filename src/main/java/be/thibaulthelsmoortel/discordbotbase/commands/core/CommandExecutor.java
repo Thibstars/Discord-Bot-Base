@@ -23,14 +23,14 @@ public class CommandExecutor {
     private static final Logger LOGGER = LoggerFactory.getLogger(CommandExecutor.class);
 
     private final List<BotCommand> botCommands;
-    private final MessageOutputStream messageOutputStream;
+    private final MessageChannelOutputStream messageChannelOutputStream;
 
     @Autowired
-    public CommandExecutor(List<BotCommand> botCommands, MessageOutputStream messageOutputStream) {
+    public CommandExecutor(List<BotCommand> botCommands, MessageChannelOutputStream messageChannelOutputStream) {
         this.botCommands = botCommands;
-        this.messageOutputStream = messageOutputStream;
-        messageOutputStream.setSubStream(System.err);
-        System.setErr(new PrintStream(messageOutputStream));
+        this.messageChannelOutputStream = messageChannelOutputStream;
+        messageChannelOutputStream.setSideStream(System.err);
+        System.setErr(new PrintStream(messageChannelOutputStream));
     }
 
     /**
@@ -53,7 +53,7 @@ public class CommandExecutor {
                     command.setEvent(event);
                     String args = commandMessage.substring(commandMessage.indexOf(commandType.name()) + commandType.name().length());
 
-                    messageOutputStream.setMessageChannel(event.getChannel());
+                    messageChannelOutputStream.setMessageChannel(event.getChannel());
                     if (StringUtils.isNotBlank(args)) {
                         CommandLine.call(command, args.split(" "));
                     } else {
