@@ -20,9 +20,6 @@ public class MessageChannelOutputStream extends OutputStream {
 
     @Override
     public void write(int b) {
-        if (sideStream != null) {
-            sideStream.write(b);
-        }
         // It's tempting to use writer.write((char) b), but that may get the encoding wrong
         // This is inefficient, but it works
         write(new byte[] {(byte) b}, 0, 1);
@@ -34,7 +31,7 @@ public class MessageChannelOutputStream extends OutputStream {
             sideStream.write(b, off, len);
         }
 
-        String content = new String(b, off, len);
+        String content = b != null ? new String(b, off, len) : null;
         if (StringUtils.isNotBlank(content)) {
             messageChannel.sendMessage(content).queue();
         }
