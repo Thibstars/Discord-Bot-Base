@@ -16,8 +16,6 @@ public class MessageChannelOutputStream extends OutputStream {
 
     private MessageChannel messageChannel;
 
-    private PrintStream sideStream;
-
     @Override
     public void write(int b) {
         // It's tempting to use writer.write((char) b), but that may get the encoding wrong
@@ -27,10 +25,6 @@ public class MessageChannelOutputStream extends OutputStream {
 
     @Override
     public void write(byte b[], int off, int len) {
-        if (sideStream != null) {
-            sideStream.write(b, off, len);
-        }
-
         String content = b != null ? new String(b, off, len) : null;
         if (StringUtils.isNotBlank(content)) {
             messageChannel.sendMessage(content).queue();
@@ -43,13 +37,5 @@ public class MessageChannelOutputStream extends OutputStream {
 
     public void setMessageChannel(MessageChannel messageChannel) {
         this.messageChannel = messageChannel;
-    }
-
-    public PrintStream getSideStream() {
-        return sideStream;
-    }
-
-    public void setSideStream(PrintStream sideStream) {
-        this.sideStream = sideStream;
     }
 }
