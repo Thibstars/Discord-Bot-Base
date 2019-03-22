@@ -2,6 +2,7 @@ package be.thibaulthelsmoortel.discordbotbase.commands.core;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -17,6 +18,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import picocli.CommandLine.Command;
 
 /**
  * @author Thibault Helsmoortel
@@ -48,12 +50,13 @@ class CommandExecutorTest extends BaseTest {
     @DisplayName("Should execute command.")
     @Test
     void shouldExecuteCommand() {
-        String commandName = aboutCommand.getClass().getAnnotation(CommandType.class).name();
+        String commandName = aboutCommand.getClass().getAnnotation(Command.class).name();
 
+        aboutCommand.setEvent(messageReceivedEvent);
         boolean executed = commandExecutor.tryExecute(messageReceivedEvent, commandName);
 
         // Assuming the command sends a message back:
-        verify(messageReceivedEvent).getChannel();
+        verify(messageReceivedEvent, times(2)).getChannel(); // Once for sending the message, once to pass to the output stream
         verify(messageChannel).sendMessage(anyString());
         verifyNoMoreInteractions(messageChannel);
         verifyNoMoreInteractions(messageReceivedEvent);

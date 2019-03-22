@@ -1,23 +1,22 @@
 package be.thibaulthelsmoortel.discordbotbase.commands;
 
-import be.thibaulthelsmoortel.discordbotbase.commands.core.Command;
-import be.thibaulthelsmoortel.discordbotbase.commands.core.CommandType;
+import be.thibaulthelsmoortel.discordbotbase.commands.core.BotCommand;
 import be.thibaulthelsmoortel.discordbotbase.config.DiscordBotEnvironment;
-import java.util.Collection;
-import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.message.GenericMessageEvent;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import picocli.CommandLine;
+import picocli.CommandLine.Command;
 
 /**
  * Basic command providing general information on the bot.
  *
  * @author Thibault Helsmoortel
  */
-@CommandType(name = "about")
+@Command(name = "about", description = "Provides general information about the bot.")
 @Component
-public class AboutCommand implements Command {
+public class AboutCommand extends BotCommand {
 
     private final DiscordBotEnvironment discordBotEnvironment;
 
@@ -27,9 +26,10 @@ public class AboutCommand implements Command {
     }
 
     @Override
-    public void execute(Event event, Collection<String> parameters) {
-        if (event instanceof GenericMessageEvent) {
-            String message;
+    public Object call() {
+        String message = null;
+
+        if (getEvent() instanceof GenericMessageEvent) {
             if (StringUtils.isAllBlank(discordBotEnvironment.getName(), discordBotEnvironment.getAuthor())) {
                 message = "Mystery bot by mystery author.";
             } else {
@@ -37,7 +37,9 @@ public class AboutCommand implements Command {
                     + (StringUtils.isNotBlank(discordBotEnvironment.getAuthor()) ? " created by " + discordBotEnvironment.getAuthor() + "." : "")
                     + (StringUtils.isNotBlank(discordBotEnvironment.getVersion()) ? " Version: " + discordBotEnvironment.getVersion() : "");
             }
-            ((GenericMessageEvent) event).getChannel().sendMessage(message).queue();
+            ((GenericMessageEvent) getEvent()).getChannel().sendMessage(message).queue();
         }
+
+        return message;
     }
 }

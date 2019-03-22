@@ -11,6 +11,7 @@ import be.thibaulthelsmoortel.discordbotbase.config.DiscordBotEnvironment;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.requests.restaction.MessageAction;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -44,9 +45,12 @@ class AboutCommandTest extends BaseTest {
     @DisplayName("Should reply mystery.")
     @Test
     void shouldReplyMystery() {
-        aboutCommand.execute(messageReceivedEvent, null);
+        aboutCommand.setEvent(messageReceivedEvent);
+        String message = (String) aboutCommand.call();
 
-        verifyOneMessageSent("Mystery bot by mystery author.");
+        Assertions.assertEquals("Mystery bot by mystery author.", message, "Message should be correct.");
+
+        verifyOneMessageSent(message);
     }
 
     @DisplayName("Should reply about message.")
@@ -59,10 +63,13 @@ class AboutCommandTest extends BaseTest {
         when(environment.getAuthor()).thenReturn(author);
 
         AboutCommand command = new AboutCommand(environment);
+        command.setEvent(messageReceivedEvent);
 
-        command.execute(messageReceivedEvent, null);
+        String message = (String) command.call();
 
-        verifyOneMessageSent(name + " created by " + author + ".");
+        Assertions.assertEquals(name + " created by " + author + ".", message, "Message should be correct.");
+
+        verifyOneMessageSent(message);
     }
 
     private void verifyOneMessageSent(String message) {

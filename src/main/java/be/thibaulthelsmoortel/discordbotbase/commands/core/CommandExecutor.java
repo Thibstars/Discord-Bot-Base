@@ -1,6 +1,6 @@
 package be.thibaulthelsmoortel.discordbotbase.commands.core;
 
-import java.util.Arrays;
+import java.io.PrintStream;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import picocli.CommandLine;
+import picocli.CommandLine.Command;
 
 /**
  * Class responsible for command execution.
@@ -20,11 +22,15 @@ public class CommandExecutor {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CommandExecutor.class);
 
-    private final List<Command> commands;
+    private final List<BotCommand> botCommands;
+    private final MessageOutputStream messageOutputStream;
 
     @Autowired
-    public CommandExecutor(List<Command> commands) {
-        this.commands = commands;
+    public CommandExecutor(List<BotCommand> botCommands, MessageOutputStream messageOutputStream) {
+        this.botCommands = botCommands;
+        this.messageOutputStream = messageOutputStream;
+        messageOutputStream.setSubStream(System.err);
+        System.setErr(new PrintStream(messageOutputStream));
     }
 
     /**
@@ -38,18 +44,20 @@ public class CommandExecutor {
         AtomicBoolean commandRecognised = new AtomicBoolean(false);
 
         if (StringUtils.isNotBlank(commandMessage)) {
-            commands.forEach(command -> {
-                CommandType commandType = command.getClass().getAnnotation(CommandType.class);
+            botCommands.forEach(command -> {
+                Command commandType = command.getClass().getAnnotation(Command.class);
                 String commandName = commandType.name();
 
                 if (commandMessage.startsWith(commandName)) {
-                    if (commandType.strategy() == ParameterStrategy.DISABLED) {
-                        commandRecognised.set(true);
-                        command.execute(event, null);
-                    } else if (commandType.strategy() == ParameterStrategy.ENABLED) {
-                        commandRecognised.set(true);
-                        String parameters = commandMessage.substring(commandMessage.indexOf(commandType.name()) + commandType.name().length());
-                        command.execute(event, Arrays.asList(parameters.split(" ")));
+                    commandRecognised.set(true);
+                    command.setEvent(event);
+                    String args = commandMessage.substring(commandMessage.indexOf(commandType.name()) + commandType.name().length());
+
+                    messageOutputStream.setMessageChannel(event.getChannel());
+                    if (StringUtils.isNotBlank(args)) {
+                        CommandLine.call(command, args.split(" "));
+                    } else {
+                        CommandLine.call(command);
                     }
                 }
             });
