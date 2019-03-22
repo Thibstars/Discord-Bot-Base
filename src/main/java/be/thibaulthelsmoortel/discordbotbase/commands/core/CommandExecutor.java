@@ -1,5 +1,6 @@
 package be.thibaulthelsmoortel.discordbotbase.commands.core;
 
+import be.thibaulthelsmoortel.discordbotbase.config.DiscordBotEnvironment;
 import java.io.PrintStream;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -25,11 +26,15 @@ public class CommandExecutor {
     private final List<BotCommand> botCommands;
     private final MessageChannelOutputStream messageChannelOutputStream;
 
+    @SuppressWarnings("squid:S106") // Only bubbling through System.err when enabled
     @Autowired
-    public CommandExecutor(List<BotCommand> botCommands, MessageChannelOutputStream messageChannelOutputStream) {
+    public CommandExecutor(List<BotCommand> botCommands, MessageChannelOutputStream messageChannelOutputStream,
+        DiscordBotEnvironment discordBotEnvironment) {
         this.botCommands = botCommands;
         this.messageChannelOutputStream = messageChannelOutputStream;
-        messageChannelOutputStream.setSideStream(System.err);
+        if (discordBotEnvironment.isEnableSystemError()) {
+            messageChannelOutputStream.setSideStream(System.err);
+        }
         System.setErr(new PrintStream(messageChannelOutputStream));
     }
 
