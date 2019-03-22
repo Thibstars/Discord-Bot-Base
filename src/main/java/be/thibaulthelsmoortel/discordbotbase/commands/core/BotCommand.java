@@ -4,7 +4,7 @@ import java.util.concurrent.Callable;
 import net.dv8tion.jda.core.events.Event;
 
 /**
- * BotCommand definition providing execution context.
+ * Command definition providing execution context.
  *
  * @author Thibault Helsmoortel
  */

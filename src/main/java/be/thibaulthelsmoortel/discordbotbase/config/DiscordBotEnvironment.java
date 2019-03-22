@@ -23,6 +23,8 @@ public class DiscordBotEnvironment implements InitializingBean {
 
     private String commandPrefix;
 
+    private boolean enableSystemError;
+
     public String getToken() {
         return token;
     }
@@ -61,6 +63,14 @@ public class DiscordBotEnvironment implements InitializingBean {
 
     public void setCommandPrefix(String commandPrefix) {
         this.commandPrefix = commandPrefix;
+    }
+
+    public boolean isEnableSystemError() {
+        return enableSystemError;
+    }
+
+    public void setEnableSystemError(boolean enableSystemError) {
+        this.enableSystemError = enableSystemError;
     }
 
     @Override
