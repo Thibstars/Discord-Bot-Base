@@ -65,8 +65,8 @@ public class CommandExecutor {
             if (commandRecognised.get()) {
                 LOGGER.debug("Executed command: {}.", commandMessage);
             } else {
-                LOGGER.debug("BotCommand not recognized: {}.", commandMessage);
-                event.getChannel().sendMessage("BotCommand not recognized...").queue();
+                LOGGER.debug("Command not recognized: {}.", commandMessage);
+                event.getChannel().sendMessage("Command not recognized...").queue();
             }
         }
 

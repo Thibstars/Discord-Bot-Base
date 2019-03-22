@@ -10,7 +10,7 @@ import net.dv8tion.jda.core.events.Event;
  */
 public abstract class BotCommand implements Callable {
 
-    protected Event event;
+    private Event event;
 
     public Event getEvent() {
         return event;

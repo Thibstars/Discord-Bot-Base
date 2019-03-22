@@ -29,7 +29,7 @@ public class AboutCommand extends BotCommand {
     public Object call() {
         String message = null;
 
-        if (event instanceof GenericMessageEvent) {
+        if (getEvent() instanceof GenericMessageEvent) {
             if (StringUtils.isAllBlank(discordBotEnvironment.getName(), discordBotEnvironment.getAuthor())) {
                 message = "Mystery bot by mystery author.";
             } else {
@@ -37,7 +37,7 @@ public class AboutCommand extends BotCommand {
                     + (StringUtils.isNotBlank(discordBotEnvironment.getAuthor()) ? " created by " + discordBotEnvironment.getAuthor() + "." : "")
                     + (StringUtils.isNotBlank(discordBotEnvironment.getVersion()) ? " Version: " + discordBotEnvironment.getVersion() : "");
             }
-            ((GenericMessageEvent) event).getChannel().sendMessage(message).queue();
+            ((GenericMessageEvent) getEvent()).getChannel().sendMessage(message).queue();
         }
 
         return message;

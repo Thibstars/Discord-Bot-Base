@@ -2,6 +2,7 @@ package be.thibaulthelsmoortel.discordbotbase.commands.core;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -51,15 +52,16 @@ class CommandExecutorTest extends BaseTest {
     void shouldExecuteCommand() {
         String commandName = aboutCommand.getClass().getAnnotation(Command.class).name();
 
+        aboutCommand.setEvent(messageReceivedEvent);
         boolean executed = commandExecutor.tryExecute(messageReceivedEvent, commandName);
 
         // Assuming the command sends a message back:
-        verify(messageReceivedEvent).getChannel();
+        verify(messageReceivedEvent, times(2)).getChannel(); // Once for sending the message, once to pass to the output stream
         verify(messageChannel).sendMessage(anyString());
         verifyNoMoreInteractions(messageChannel);
         verifyNoMoreInteractions(messageReceivedEvent);
 
-        Assertions.assertTrue(executed, "BotCommand should be executed.");
+        Assertions.assertTrue(executed, "Command should be executed.");
     }
 
     @DisplayName("Should not execute command.")
@@ -71,10 +73,10 @@ class CommandExecutorTest extends BaseTest {
 
         // The executor should send back a message:
         verify(messageReceivedEvent).getChannel();
-        verify(messageChannel).sendMessage("BotCommand not recognized...");
+        verify(messageChannel).sendMessage("Command not recognized...");
         verifyNoMoreInteractions(messageChannel);
         verifyNoMoreInteractions(messageReceivedEvent);
 
-        Assertions.assertFalse(executed, "BotCommand should not be executed.");
+        Assertions.assertFalse(executed, "Command should not be executed.");
     }
 }
