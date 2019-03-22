@@ -2,9 +2,11 @@ package be.thibaulthelsmoortel.discordbotbase.application;
 
 import be.thibaulthelsmoortel.discordbotbase.commands.core.CommandExecutor;
 import be.thibaulthelsmoortel.discordbotbase.config.DiscordBotEnvironment;
+import java.util.Objects;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import org.slf4j.Logger;
@@ -38,6 +40,12 @@ public class DiscordBotRunner extends ListenerAdapter implements CommandLineRunn
         Message message = event.getMessage();
         String msg = message.getContentDisplay();
         handleMessage(event, msg);
+    }
+
+    @Override
+    public void onGuildReady(GuildReadyEvent event) {
+        Objects.requireNonNull(event.getGuild().getDefaultChannel())
+            .sendMessage(discordBotEnvironment.getName() + " reporting for duty!").queue();
     }
 
     private void handleMessage(MessageReceivedEvent event, String msg) {
