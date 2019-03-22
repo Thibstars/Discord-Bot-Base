@@ -1,6 +1,5 @@
 package be.thibaulthelsmoortel.discordbotbase.commands.core;
 
-import be.thibaulthelsmoortel.discordbotbase.config.DiscordBotEnvironment;
 import java.io.PrintStream;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -12,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Help.Ansi;
 
 /**
  * Class responsible for command execution.
@@ -25,17 +25,13 @@ public class CommandExecutor {
 
     private final List<BotCommand> botCommands;
     private final MessageChannelOutputStream messageChannelOutputStream;
+    private final PrintStream printStream;
 
-    @SuppressWarnings("squid:S106") // Only bubbling through System.err when enabled
     @Autowired
-    public CommandExecutor(List<BotCommand> botCommands, MessageChannelOutputStream messageChannelOutputStream,
-        DiscordBotEnvironment discordBotEnvironment) {
+    public CommandExecutor(List<BotCommand> botCommands, MessageChannelOutputStream messageChannelOutputStream) {
         this.botCommands = botCommands;
         this.messageChannelOutputStream = messageChannelOutputStream;
-        if (discordBotEnvironment.isEnableSystemError()) {
-            messageChannelOutputStream.setSideStream(System.err);
-        }
-        System.setErr(new PrintStream(messageChannelOutputStream));
+        printStream = new PrintStream(messageChannelOutputStream);
     }
 
     /**
@@ -60,9 +56,9 @@ public class CommandExecutor {
 
                     messageChannelOutputStream.setMessageChannel(event.getChannel());
                     if (StringUtils.isNotBlank(args)) {
-                        CommandLine.call(command, args.split(" "));
+                        CommandLine.call(command, printStream, printStream, Ansi.OFF, args.split(" "));
                     } else {
-                        CommandLine.call(command);
+                        CommandLine.call(command, printStream, printStream, Ansi.OFF);
                     }
                 }
             });

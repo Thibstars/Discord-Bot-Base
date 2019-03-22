@@ -30,14 +30,10 @@ class MessageChannelOutputStreamTest extends BaseTest {
     @Mock
     private MessageChannel messageChannel;
 
-    @Mock
-    private PrintStream sideStream;
-
     @BeforeEach
     void setUp() {
         messageChannelOutputStream = new MessageChannelOutputStream();
         messageChannelOutputStream.setMessageChannel(messageChannel);
-        messageChannelOutputStream.setSideStream(sideStream);
 
         when(messageChannel.sendMessage(anyString())).thenReturn(mock(MessageAction.class));
     }
@@ -58,15 +54,6 @@ class MessageChannelOutputStreamTest extends BaseTest {
         messageChannelOutputStream.write(message != null ? message.getBytes() : null, 0, message != null ? message.length() : 0);
 
         verifyNoMoreInteractions(messageChannel);
-    }
-
-    @DisplayName("Should write message to side stream.")
-    @Test
-    void shouldWriteMessageToSideStream() {
-        String message = "Hello World!";
-        messageChannelOutputStream.write(message.getBytes(), 0, message.length());
-
-        verify(sideStream).write(message.getBytes(), 0, message.length());
     }
 
     static Stream<String> blankStrings() {

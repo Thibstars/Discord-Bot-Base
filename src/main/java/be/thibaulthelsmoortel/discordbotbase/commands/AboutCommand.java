@@ -6,7 +6,6 @@ import net.dv8tion.jda.core.events.message.GenericMessageEvent;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import picocli.CommandLine;
 import picocli.CommandLine.Command;
 
 /**

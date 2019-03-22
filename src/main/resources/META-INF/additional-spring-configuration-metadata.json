@@ -19,11 +19,5 @@
       "name": "bot.commandPrefix",
       "type": "java.lang.String",
       "description": "Discord bot command prefix."
-    },
-    {
-      "name": "bot.enableSystemError",
-      "type": "java.lang.Boolean",
-      "defaultValue": false,
-      "description": "Enables system error output."
     }
   ] }
