@@ -19,5 +19,11 @@
       "name": "bot.commandPrefix",
       "type": "java.lang.String",
       "description": "Discord bot command prefix."
+    },
+    {
+      "name": "bot.processBotMessages",
+      "type": "java.lang.Boolean",
+      "defaultValue": false,
+      "description": "Defines whether or not to process messages from other bots.."
     }
   ] }

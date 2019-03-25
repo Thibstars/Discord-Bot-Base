@@ -39,8 +39,14 @@ public class DiscordBotRunner extends ListenerAdapter implements CommandLineRunn
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
         Message message = event.getMessage();
-        String msg = message.getContentDisplay();
-        handleMessage(event, msg);
+        if (processMessage(message)) {
+            String msg = message.getContentDisplay();
+            handleMessage(event, msg);
+        }
+    }
+
+    private boolean processMessage(Message message) {
+        return (discordBotEnvironment.isProcessBotMessages() && message.getAuthor().isBot()) || !message.getAuthor().isBot();
     }
 
     @Override

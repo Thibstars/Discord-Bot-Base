@@ -10,8 +10,10 @@ import be.thibaulthelsmoortel.discordbotbase.BaseTest;
 import be.thibaulthelsmoortel.discordbotbase.commands.core.CommandExecutor;
 import be.thibaulthelsmoortel.discordbotbase.config.DiscordBotEnvironment;
 import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.entities.impl.ReceivedMessage;
 import net.dv8tion.jda.core.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -41,6 +43,9 @@ class DiscordBotRunnerTest extends BaseTest {
     @Mock
     private MessageChannel messageChannel;
 
+    @Mock
+    private User user;
+
     @BeforeEach
     void setUp() {
         this.discordBotRunner = new DiscordBotRunner(discordBotEnvironment, commandExecutor);
@@ -53,6 +58,9 @@ class DiscordBotRunnerTest extends BaseTest {
         when(messageChannel.sendTyping()).thenReturn(mock(RestAction.class));
         ReceivedMessage receivedMessage = mock(ReceivedMessage.class);
         when(messageReceivedEvent.getMessage()).thenReturn(receivedMessage);
+        when(receivedMessage.getAuthor()).thenReturn(user);
+        when(user.isBot()).thenReturn(false);
+
         String prefix = "/";
         String message = "myNewMessage";
         when(receivedMessage.getContentDisplay()).thenReturn(prefix + message);
@@ -82,5 +90,47 @@ class DiscordBotRunnerTest extends BaseTest {
         verify(textChannel).sendTyping();
         verify(textChannel).sendMessage(discordBotEnvironment.getName() + " reporting for duty!");
         verifyNoMoreInteractions(textChannel);
+    }
+
+    @DisplayName("Should not process bot messages.")
+    @Test
+    void shouldNotProcessBotMessages() {
+        configureAsBot();
+        when(discordBotEnvironment.isProcessBotMessages()).thenReturn(false);
+
+        discordBotRunner.onMessageReceived(messageReceivedEvent);
+
+        verifyNoMoreInteractions(messageChannel);
+        verify(messageReceivedEvent).getMessage(); // 1 to check processing
+    }
+
+    @DisplayName("Should process bot messages.")
+    @Test
+    void shouldProcessBotMessages() {
+        Message messageMock = configureAsBot();
+        when(discordBotEnvironment.isProcessBotMessages()).thenReturn(true);
+
+        String prefix = "/";
+        String message = "myNewMessage";
+        when(messageMock.getContentDisplay()).thenReturn(prefix + message);
+        when(discordBotEnvironment.getCommandPrefix()).thenReturn(prefix);
+        when(messageReceivedEvent.getChannel()).thenReturn(messageChannel);
+        when(messageChannel.sendTyping()).thenReturn(mock(RestAction.class));
+
+        discordBotRunner.onMessageReceived(messageReceivedEvent);
+
+        verify(messageChannel).sendTyping();
+        verifyNoMoreInteractions(messageChannel);
+        verify(commandExecutor).tryExecute(messageReceivedEvent, message);
+        verifyNoMoreInteractions(commandExecutor);
+    }
+
+    private Message configureAsBot() {
+        Message messageMock = mock(Message.class);
+        when(messageReceivedEvent.getMessage()).thenReturn(messageMock);
+        when(messageMock.getAuthor()).thenReturn(user);
+        when(user.isBot()).thenReturn(true);
+
+        return messageMock;
     }
 }

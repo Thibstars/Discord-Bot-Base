@@ -23,7 +23,7 @@ public class DiscordBotEnvironment implements InitializingBean {
 
     private String commandPrefix;
 
-    private boolean enableSystemError;
+    private boolean processBotMessages;
 
     public String getToken() {
         return token;
@@ -65,12 +65,12 @@ public class DiscordBotEnvironment implements InitializingBean {
         this.commandPrefix = commandPrefix;
     }
 
-    public boolean isEnableSystemError() {
-        return enableSystemError;
+    public boolean isProcessBotMessages() {
+        return processBotMessages;
     }
 
-    public void setEnableSystemError(boolean enableSystemError) {
-        this.enableSystemError = enableSystemError;
+    public void setProcessBotMessages(boolean processBotMessages) {
+        this.processBotMessages = processBotMessages;
     }
 
     @Override
