@@ -52,7 +52,7 @@ public class CommandExecutor {
                 if (commandMessage.startsWith(commandName)) {
                     commandRecognised.set(true);
                     command.setEvent(event);
-                    String args = commandMessage.substring(commandMessage.indexOf(commandType.name()) + commandType.name().length());
+                    String args = commandMessage.substring(commandMessage.indexOf(commandType.name()) + commandType.name().length()).trim();
 
                     messageChannelOutputStream.setMessageChannel(event.getChannel());
                     if (StringUtils.isNotBlank(args)) {
