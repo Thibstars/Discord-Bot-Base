@@ -1,5 +1,6 @@
 package be.thibaulthelsmoortel.discordbotbase.commands;
 
+import be.thibaulthelsmoortel.discordbotbase.commands.candidates.PermissionCandidates;
 import be.thibaulthelsmoortel.discordbotbase.commands.converters.PermissionConverter;
 import be.thibaulthelsmoortel.discordbotbase.commands.core.BotCommand;
 import net.dv8tion.jda.bot.JDABot;
@@ -23,7 +24,8 @@ public class InviteCommand extends BotCommand {
     @Option(names = {"-p", "--permission"}, description = "Target bot permission.", arity = "0..1")
     private boolean[] permissionsRequested = new boolean[0];
 
-    @Parameters(paramLabel = "PERMISSION", description = "Target bot permissions.", arity = "0..*", converter = PermissionConverter.class)
+    @Parameters(paramLabel = "PERMISSION", description = "Target bot permissions. Candidates: ${COMPLETION-CANDIDATES}", arity = "0..*",
+        converter = PermissionConverter.class, completionCandidates = PermissionCandidates.class)
     private Permission[] permissions;
 
     @Override
