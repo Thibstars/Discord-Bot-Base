@@ -10,14 +10,7 @@ jdk:
 before_install:
   - chmod +x mvnw
 
-jobs:
-  include:
-    - stage: "Tests"
-      name: "Unit tests"
-      script: mvn clean verify -DfailIfNoTests=true
-    - stage: "Coverage"
-      name: "Process code coverage"
-      script: "mvn cobertura:cobertura"
+script: mvn clean verify -DfailIfNoTests=true
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
