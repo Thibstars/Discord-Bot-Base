@@ -58,7 +58,6 @@ class DiscordBotRunnerTest extends BaseTest {
         when(messageChannel.sendTyping()).thenReturn(mock(RestAction.class));
         ReceivedMessage receivedMessage = mock(ReceivedMessage.class);
         when(messageReceivedEvent.getMessage()).thenReturn(receivedMessage);
-        when(messageReceivedEvent.getMessage()).thenReturn(receivedMessage);
         when(receivedMessage.getAuthor()).thenReturn(user);
         when(user.isBot()).thenReturn(false);
 
@@ -93,15 +92,45 @@ class DiscordBotRunnerTest extends BaseTest {
         verifyNoMoreInteractions(textChannel);
     }
 
-    @DisplayName("Should skip bot messages.")
+    @DisplayName("Should not process bot messages.")
     @Test
-    void shouldSkipBotMessages() {
+    void shouldNotProcessBotMessages() {
+        configureAsBot();
+        when(discordBotEnvironment.isProcessBotMessages()).thenReturn(false);
+
+        discordBotRunner.onMessageReceived(messageReceivedEvent);
+
+        verifyNoMoreInteractions(messageChannel);
+        verify(messageReceivedEvent).getMessage(); // 1 to check processing
+    }
+
+    @DisplayName("Should process bot messages.")
+    @Test
+    void shouldProcessBotMessages() {
+        Message messageMock = configureAsBot();
+        when(discordBotEnvironment.isProcessBotMessages()).thenReturn(true);
+
+        String prefix = "/";
+        String message = "myNewMessage";
+        when(messageMock.getContentDisplay()).thenReturn(prefix + message);
+        when(discordBotEnvironment.getCommandPrefix()).thenReturn(prefix);
+        when(messageReceivedEvent.getChannel()).thenReturn(messageChannel);
+        when(messageChannel.sendTyping()).thenReturn(mock(RestAction.class));
+
+        discordBotRunner.onMessageReceived(messageReceivedEvent);
+
+        verify(messageChannel).sendTyping();
+        verifyNoMoreInteractions(messageChannel);
+        verify(commandExecutor).tryExecute(messageReceivedEvent, message);
+        verifyNoMoreInteractions(commandExecutor);
+    }
+
+    private Message configureAsBot() {
         Message messageMock = mock(Message.class);
         when(messageReceivedEvent.getMessage()).thenReturn(messageMock);
         when(messageMock.getAuthor()).thenReturn(user);
         when(user.isBot()).thenReturn(true);
 
-        verifyNoMoreInteractions(messageChannel);
-        verifyNoMoreInteractions(messageReceivedEvent);
+        return messageMock;
     }
 }
