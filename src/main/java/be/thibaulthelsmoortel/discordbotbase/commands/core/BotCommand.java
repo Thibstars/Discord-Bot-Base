@@ -2,22 +2,19 @@ package be.thibaulthelsmoortel.discordbotbase.commands.core;
 
 import java.util.concurrent.Callable;
 import net.dv8tion.jda.core.events.Event;
-import picocli.CommandLine.Option;
+import picocli.CommandLine.Command;
 
 /**
  * Command definition providing execution context.
  *
  * @author Thibault Helsmoortel
  */
+@Command(mixinStandardHelpOptions = true, versionProvider = VersionProvider.class)
 public abstract class BotCommand implements Callable {
-
-    @SuppressWarnings("unused")
-    @Option(names = {"-h", "--help"}, usageHelp = true, description = "Prints this help message and exits.")
-    private boolean helpRequested;
 
     private Event event;
 
-    public Event getEvent() {
+    protected Event getEvent() {
         return event;
     }
 
