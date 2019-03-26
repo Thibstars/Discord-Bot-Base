@@ -22,6 +22,7 @@ package be.thibaulthelsmoortel.discordbotbase.application;
 
 import be.thibaulthelsmoortel.discordbotbase.commands.core.CommandExecutor;
 import be.thibaulthelsmoortel.discordbotbase.config.DiscordBotEnvironment;
+import be.thibaulthelsmoortel.discordbotbase.exceptions.MissingTokenException;
 import java.util.Objects;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDABuilder;
@@ -30,6 +31,7 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,15 +89,32 @@ public class DiscordBotRunner extends ListenerAdapter implements CommandLineRunn
     }
 
     @Override
-    public void run(String... args) {
+    public void run(String... args) throws MissingTokenException {
+        String token;
+        if (StringUtils.isNotBlank(discordBotEnvironment.getToken())) {
+            token = discordBotEnvironment.getToken();
+        } else {
+            // Take token as first run arg (for example for when running from docker with an ENV variable)
+            if (args != null && args.length > 0) {
+                token = args[0];
+            } else {
+                token = null;
+            }
+        }
+
+        if (StringUtils.isBlank(token)) {
+            throw new MissingTokenException();
+        }
+
         try {
             new JDABuilder(AccountType.BOT)
-                .setToken(discordBotEnvironment.getToken())
+                .setToken(token)
                 .addEventListener(this)
                 .build()
                 .awaitReady();
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
         }
+
     }
 }

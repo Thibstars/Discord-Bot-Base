@@ -28,6 +28,6 @@ package be.thibaulthelsmoortel.discordbotbase.exceptions;
 public class MissingTokenException extends IllegalArgumentException {
 
     public MissingTokenException() {
-        super("No token provided. Make sure to add it to token.properties.");
+        super("No token provided. Make sure to add it to token.properties or add it as the first run argument.");
     }
 }
