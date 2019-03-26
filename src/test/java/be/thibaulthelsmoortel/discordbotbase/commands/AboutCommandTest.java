@@ -36,25 +36,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author Thibault Helsmoortel
  */
 class AboutCommandTest extends BaseTest {
 
-    private final AboutCommand aboutCommand;
-
     @Mock
     private MessageReceivedEvent messageReceivedEvent;
 
     @Mock
     private MessageChannel messageChannel;
-
-    @Autowired
-    AboutCommandTest(AboutCommand aboutCommand) {
-        this.aboutCommand = aboutCommand;
-    }
 
     @BeforeEach
     void setUp() {
@@ -65,8 +57,12 @@ class AboutCommandTest extends BaseTest {
     @DisplayName("Should reply mystery.")
     @Test
     void shouldReplyMystery() {
-        aboutCommand.setEvent(messageReceivedEvent);
-        String message = (String) aboutCommand.call();
+        DiscordBotEnvironment environment = mock(DiscordBotEnvironment.class);
+        when(environment.getName()).thenReturn(null);
+        when(environment.getAuthor()).thenReturn(null);
+        AboutCommand command = new AboutCommand(environment);
+        command.setEvent(messageReceivedEvent);
+        String message = (String) command.call();
 
         Assertions.assertEquals("Mystery bot by mystery author.", message, "Message should be correct.");
 
