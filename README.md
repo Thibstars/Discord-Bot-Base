@@ -1,5 +1,9 @@
 # Discord Bot Base [![Build Status](https://travis-ci.org/Thibstars/Discord-Bot-Base.svg?branch=master)](https://travis-ci.org/Thibstars/Discord-Bot-Base) [![codecov](https://codecov.io/gh/Thibstars/Discord-Bot-Base/branch/master/graph/badge.svg)](https://codecov.io/gh/Thibstars/Discord-Bot-Base) # 
-Discord bot base application.
+This repository serves as a starting point to create Java Discord bot applications. It comes with some default commands and provides some predefined 
+configuration.
+
+This project's aim is to help you get your bot project kicked off as fast and smooth as possible.
+To facilitate this, the project makes use of [JDA](https://github.com/DV8FromTheWorld/JDA) and [Picocli](https://github.com/remkop/picocli).
 
 ## Usage ##
 
