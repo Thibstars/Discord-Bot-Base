@@ -7,5 +7,5 @@ RUN mvn clean package -f pom.xml
 
 FROM adoptopenjdk/openjdk11
 COPY --from=MAVEN_TOOL_CHAIN /tmp/target/*.jar app.jar
-# Make sure to provide an `ENV $BOT_TOKEN`
+# Make sure to provide an environment variable `BOT_TOKEN`
 ENTRYPOINT exec java -jar /app.jar $BOT_TOKEN
