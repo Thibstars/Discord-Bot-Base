@@ -52,7 +52,7 @@ public class AboutCommand extends BotCommand {
             if (StringUtils.isAllBlank(discordBotEnvironment.getName(), discordBotEnvironment.getAuthor())) {
                 message = "Mystery bot by mystery author.";
             } else {
-                message = whenNotBlankPrint(discordBotEnvironment.getName(), "Bot ")
+                message = whenNotBlankPrint(discordBotEnvironment.getName(), "Bot")
                     + (StringUtils.isNotBlank(discordBotEnvironment.getAuthor()) ? " created by " + discordBotEnvironment.getAuthor() + "." : "")
                     + (StringUtils.isNotBlank(discordBotEnvironment.getVersion()) ? " Version: " + discordBotEnvironment.getVersion() : "")
                     + (StringUtils.isNotBlank(discordBotEnvironment.getDescription()) ? System.lineSeparator() + discordBotEnvironment.getDescription() : "");

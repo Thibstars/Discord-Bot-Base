@@ -96,4 +96,25 @@ class AboutCommandTest extends BaseTest {
 
         verifyOneMessageSent(message);
     }
+
+    @DisplayName("Should reply about message without bot name.")
+    @Test
+    void shouldReplyAboutMessageWithoutBotName() {
+        DiscordBotEnvironment environment = mock(DiscordBotEnvironment.class);
+        when(environment.getName()).thenReturn(null);
+        String author = "myAuthor";
+        when(environment.getAuthor()).thenReturn(author);
+        String description = "my bot is the best";
+        when(environment.getDescription()).thenReturn(description);
+
+        AboutCommand command = new AboutCommand(environment);
+        command.setEvent(messageReceivedEvent);
+
+        String message = (String) command.call();
+
+        Assertions.assertEquals("Bot created by " + author + "." + System.lineSeparator() + description, message, "Message should be correct.");
+
+        verifyOneMessageSent(message);
+    }
+
 }
