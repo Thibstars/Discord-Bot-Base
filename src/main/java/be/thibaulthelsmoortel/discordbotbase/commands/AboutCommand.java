@@ -52,13 +52,22 @@ public class AboutCommand extends BotCommand {
             if (StringUtils.isAllBlank(discordBotEnvironment.getName(), discordBotEnvironment.getAuthor())) {
                 message = "Mystery bot by mystery author.";
             } else {
-                message = (StringUtils.isNotBlank(discordBotEnvironment.getName()) ? discordBotEnvironment.getName() : "Bot ")
+                message = whenNotBlankPrint(discordBotEnvironment.getName(), "Bot ")
                     + (StringUtils.isNotBlank(discordBotEnvironment.getAuthor()) ? " created by " + discordBotEnvironment.getAuthor() + "." : "")
-                    + (StringUtils.isNotBlank(discordBotEnvironment.getVersion()) ? " Version: " + discordBotEnvironment.getVersion() : "");
+                    + (StringUtils.isNotBlank(discordBotEnvironment.getVersion()) ? " Version: " + discordBotEnvironment.getVersion() : "")
+                    + (StringUtils.isNotBlank(discordBotEnvironment.getDescription()) ? System.lineSeparator() + discordBotEnvironment.getDescription() : "");
             }
             ((GenericMessageEvent) getEvent()).getChannel().sendMessage(message).queue();
         }
 
         return message;
+    }
+
+    private String whenNotBlankPrint(String toPrint, String fallBack) {
+        if (StringUtils.isNotBlank(toPrint)) {
+            return toPrint;
+        } else {
+            return fallBack;
+        }
     }
 }

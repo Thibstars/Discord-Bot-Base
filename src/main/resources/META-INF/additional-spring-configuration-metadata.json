@@ -11,6 +11,11 @@
       "description": "Discord bot name."
     },
     {
+      "name": "bot.description",
+      "type": "java.lang.String",
+      "description": "Discord bot description."
+    },
+    {
       "name": "bot.version",
       "type": "java.lang.String",
       "description": "Current bot version."
