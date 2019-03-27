@@ -32,7 +32,7 @@
 	<artifactId>discord-bot-base</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Discord Bot Base</name>
-	<description>Discord bot base application.</description>
+	<description>Starting point to create Java Discord bot applications.</description>
 
 	<properties>
 		<java.version>11</java.version>
