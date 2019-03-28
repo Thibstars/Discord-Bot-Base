@@ -20,19 +20,12 @@
 
 package be.thibaulthelsmoortel.discordbotbase.commands;
 
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
-import be.thibaulthelsmoortel.discordbotbase.BaseTest;
 import be.thibaulthelsmoortel.discordbotbase.config.DiscordBotEnvironment;
-import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.core.requests.restaction.MessageAction;
+import net.dv8tion.jda.core.events.Event;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -40,27 +33,17 @@ import org.mockito.Mock;
 /**
  * @author Thibault Helsmoortel
  */
-class AboutCommandTest extends BaseTest {
+class AboutCommandTest extends CommandBaseTest {
 
     @Mock
-    private MessageReceivedEvent messageReceivedEvent;
-
-    @Mock
-    private MessageChannel messageChannel;
-
-    @BeforeEach
-    void setUp() {
-        when(messageReceivedEvent.getChannel()).thenReturn(messageChannel);
-        when(messageChannel.sendMessage(anyString())).thenReturn(mock(MessageAction.class));
-    }
+    private DiscordBotEnvironment discordBotEnvironment;
 
     @DisplayName("Should reply mystery.")
     @Test
     void shouldReplyMystery() {
-        DiscordBotEnvironment environment = mock(DiscordBotEnvironment.class);
-        when(environment.getName()).thenReturn(null);
-        when(environment.getAuthor()).thenReturn(null);
-        AboutCommand command = new AboutCommand(environment);
+        when(discordBotEnvironment.getName()).thenReturn(null);
+        when(discordBotEnvironment.getAuthor()).thenReturn(null);
+        AboutCommand command = new AboutCommand(discordBotEnvironment);
         command.setEvent(messageReceivedEvent);
         String message = (String) command.call();
 
@@ -69,25 +52,17 @@ class AboutCommandTest extends BaseTest {
         verifyOneMessageSent(message);
     }
 
-    private void verifyOneMessageSent(String message) {
-        verify(messageReceivedEvent).getChannel();
-        verify(messageChannel).sendMessage(message);
-        verifyNoMoreInteractions(messageChannel);
-        verifyNoMoreInteractions(messageReceivedEvent);
-    }
-
     @DisplayName("Should reply about message.")
     @Test
     void shouldReplyAboutMessage() {
-        DiscordBotEnvironment environment = mock(DiscordBotEnvironment.class);
         String name = "myBot";
-        when(environment.getName()).thenReturn(name);
+        when(discordBotEnvironment.getName()).thenReturn(name);
         String author = "myAuthor";
-        when(environment.getAuthor()).thenReturn(author);
+        when(discordBotEnvironment.getAuthor()).thenReturn(author);
         String description = "my bot is the best";
-        when(environment.getDescription()).thenReturn(description);
+        when(discordBotEnvironment.getDescription()).thenReturn(description);
 
-        AboutCommand command = new AboutCommand(environment);
+        AboutCommand command = new AboutCommand(discordBotEnvironment);
         command.setEvent(messageReceivedEvent);
 
         String message = (String) command.call();
@@ -100,14 +75,13 @@ class AboutCommandTest extends BaseTest {
     @DisplayName("Should reply about message without bot name.")
     @Test
     void shouldReplyAboutMessageWithoutBotName() {
-        DiscordBotEnvironment environment = mock(DiscordBotEnvironment.class);
-        when(environment.getName()).thenReturn(null);
+        when(discordBotEnvironment.getName()).thenReturn(null);
         String author = "myAuthor";
-        when(environment.getAuthor()).thenReturn(author);
+        when(discordBotEnvironment.getAuthor()).thenReturn(author);
         String description = "my bot is the best";
-        when(environment.getDescription()).thenReturn(description);
+        when(discordBotEnvironment.getDescription()).thenReturn(description);
 
-        AboutCommand command = new AboutCommand(environment);
+        AboutCommand command = new AboutCommand(discordBotEnvironment);
         command.setEvent(messageReceivedEvent);
 
         String message = (String) command.call();
@@ -115,6 +89,14 @@ class AboutCommandTest extends BaseTest {
         Assertions.assertEquals("Bot created by " + author + "." + System.lineSeparator() + description, message, "Message should be correct.");
 
         verifyOneMessageSent(message);
+    }
+
+    @DisplayName("Should not process event.")
+    @Test
+    void shouldNotProcessEvent() throws Exception {
+        AboutCommand command = new AboutCommand(discordBotEnvironment);
+
+        verifyDoNotProcessEvent(command, mock(Event.class));
     }
 
 }

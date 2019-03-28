@@ -24,51 +24,42 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import be.thibaulthelsmoortel.discordbotbase.BaseTest;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.requests.RestAction;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.util.StringUtils;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author Thibault Helsmoortel
  */
-class GoodBotCommandTest extends BaseTest {
+class GoodBotCommandTest extends CommandBaseTest {
 
     private final GoodBotCommand goodBotCommand;
-
-    @Mock
-    private MessageReceivedEvent messageReceivedEvent;
-
-    @Mock
-    private Message message;
 
     @Autowired
     GoodBotCommandTest(GoodBotCommand goodBotCommand) {
         this.goodBotCommand = goodBotCommand;
     }
 
-    @BeforeEach
-    void setUp() {
-        when(messageReceivedEvent.getMessage()).thenReturn(message);
-        when(message.addReaction(anyString())).thenReturn(mock(RestAction.class));
-        goodBotCommand.setEvent(messageReceivedEvent);
-    }
-
     @DisplayName("Should add reaction to message.")
     @Test
     void shouldAddReactionToMessage() {
+        goodBotCommand.setEvent(messageReceivedEvent);
         String emoji = (String) goodBotCommand.call();
 
         Assertions.assertTrue(StringUtils.isNotBlank(emoji), "Emoji must not be blank.");
 
         verify(messageReceivedEvent).getMessage();
         verify(message).addReaction(emoji);
+    }
+
+    @DisplayName("Should not process event.")
+    @Test
+    void shouldNotProcessEvent() throws Exception {
+        verifyDoNotProcessEvent(goodBotCommand, mock(Event.class));
     }
 }

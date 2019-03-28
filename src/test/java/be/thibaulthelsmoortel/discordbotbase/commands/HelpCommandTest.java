@@ -19,52 +19,35 @@
 
 package be.thibaulthelsmoortel.discordbotbase.commands;
 
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
-import be.thibaulthelsmoortel.discordbotbase.BaseTest;
 import be.thibaulthelsmoortel.discordbotbase.commands.core.BotCommand;
 import be.thibaulthelsmoortel.discordbotbase.config.DiscordBotEnvironment;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.core.requests.restaction.MessageAction;
+import net.dv8tion.jda.core.events.Event;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import picocli.CommandLine.Command;
 
 /**
  * @author Thibault Helsmoortel
  */
-class HelpCommandTest extends BaseTest {
+class HelpCommandTest extends CommandBaseTest {
 
-    @Mock
-    private MessageReceivedEvent messageReceivedEvent;
-
-    @Mock
-    private MessageChannel messageChannel;
-
-    @MockBean
     private List<BotCommand> botCommands;
-
-    @BeforeEach
-    void setUp() {
-        when(messageReceivedEvent.getChannel()).thenReturn(messageChannel);
-        when(messageChannel.sendMessage(anyString())).thenReturn(mock(MessageAction.class));
-    }
 
     @DisplayName("Should send help message.")
     @Test
     void shouldSendHelpMessage() {
+        botCommands = new ArrayList<>();
+        botCommands.add(new InviteCommand());
+        botCommands.add(new GoodBotCommand());
+
         DiscordBotEnvironment environment = mock(DiscordBotEnvironment.class);
         when(environment.getCommandPrefix()).thenReturn("/");
         HelpCommand command = new HelpCommand(environment, botCommands);
@@ -81,11 +64,12 @@ class HelpCommandTest extends BaseTest {
         verifyOneMessageSent(message);
     }
 
-    private void verifyOneMessageSent(String message) {
-        verify(messageReceivedEvent).getChannel();
-        verify(messageChannel).sendMessage(message);
-        verifyNoMoreInteractions(messageChannel);
-        verifyNoMoreInteractions(messageReceivedEvent);
+    @DisplayName("Should not process event.")
+    @Test
+    void shouldNotProcessEvent() throws Exception {
+        HelpCommand command = new HelpCommand(mock(DiscordBotEnvironment.class), botCommands);
+
+        verifyDoNotProcessEvent(command, mock(Event.class));
     }
 
     private String parseDescription(Command annotation) {

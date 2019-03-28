@@ -25,7 +25,7 @@ import be.thibaulthelsmoortel.discordbotbase.commands.converters.PermissionConve
 import be.thibaulthelsmoortel.discordbotbase.commands.core.BotCommand;
 import net.dv8tion.jda.bot.JDABot;
 import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.events.message.GenericMessageEvent;
+import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import org.springframework.stereotype.Component;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -51,7 +51,7 @@ public class InviteCommand extends BotCommand {
     @Override
     public Object call() {
         String message = null;
-        if (getEvent() instanceof GenericMessageEvent) {
+        if (getEvent() instanceof MessageReceivedEvent) {
             JDABot jdaBot = getEvent().getJDA().asBot();
 
             if (permissionsRequested.length > 0 && permissions != null && permissions.length > 0) {
@@ -60,12 +60,22 @@ public class InviteCommand extends BotCommand {
                 message = jdaBot.getInviteUrl(Permission.EMPTY_PERMISSIONS);
             }
 
-            ((GenericMessageEvent) getEvent()).getChannel().sendMessage(message).queue();
+            ((MessageReceivedEvent) getEvent()).getChannel().sendMessage(message).queue();
         }
 
         reset();
 
         return message;
+    }
+
+    // Visible for testing
+    void setPermissionsRequested(boolean[] permissionsRequested) {
+        this.permissionsRequested = permissionsRequested;
+    }
+
+    // Visible for testing
+    void setPermissions(Permission[] permissions) {
+        this.permissions = permissions;
     }
 
     private void reset() {
