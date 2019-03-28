@@ -22,7 +22,7 @@ package be.thibaulthelsmoortel.discordbotbase.commands;
 
 import be.thibaulthelsmoortel.discordbotbase.commands.core.BotCommand;
 import be.thibaulthelsmoortel.discordbotbase.config.DiscordBotEnvironment;
-import net.dv8tion.jda.core.events.message.GenericMessageEvent;
+import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -48,7 +48,7 @@ public class AboutCommand extends BotCommand {
     public Object call() {
         String message = null;
 
-        if (getEvent() instanceof GenericMessageEvent) {
+        if (getEvent() instanceof MessageReceivedEvent) {
             if (StringUtils.isAllBlank(discordBotEnvironment.getName(), discordBotEnvironment.getAuthor())) {
                 message = "Mystery bot by mystery author.";
             } else {
@@ -57,7 +57,7 @@ public class AboutCommand extends BotCommand {
                     + (StringUtils.isNotBlank(discordBotEnvironment.getVersion()) ? " Version: " + discordBotEnvironment.getVersion() : "")
                     + (StringUtils.isNotBlank(discordBotEnvironment.getDescription()) ? System.lineSeparator() + discordBotEnvironment.getDescription() : "");
             }
-            ((GenericMessageEvent) getEvent()).getChannel().sendMessage(message).queue();
+            ((MessageReceivedEvent) getEvent()).getChannel().sendMessage(message).queue();
         }
 
         return message;
