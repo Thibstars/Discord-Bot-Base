@@ -68,6 +68,16 @@ public class InviteCommand extends BotCommand {
         return message;
     }
 
+    // Visible for testing
+    void setPermissionsRequested(boolean[] permissionsRequested) {
+        this.permissionsRequested = permissionsRequested;
+    }
+
+    // Visible for testing
+    void setPermissions(Permission[] permissions) {
+        this.permissions = permissions;
+    }
+
     private void reset() {
         permissionsRequested = new boolean[0];
         permissions = null;
