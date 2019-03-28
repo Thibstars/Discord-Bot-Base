@@ -20,6 +20,11 @@
 package be.thibaulthelsmoortel.discordbotbase.commands;
 
 import be.thibaulthelsmoortel.discordbotbase.commands.core.BotCommand;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import org.springframework.stereotype.Component;
@@ -35,16 +40,38 @@ import picocli.CommandLine.Command;
 public class GoodBotCommand extends BotCommand {
 
     private static final String THUMBS_UP_EMOJI = "\uD83D\uDC4D";
+    private static final String VICTORY_HAND_EMOJI = "\u270C";
+    private static final String METAL_EMOJI = "\uD83E\uDD18";
+    private static final String SMILING_FACE_WITH_SMILING_EYES_EMOJI = "\uD83D\uDE0A";
+    private static final String HUG_EMOJI = "\uD83E\uDD17";
+    private static final String FIST_BUMP_EMOJI = "\uD83D\uDC4A";
+
+    private static final List<String> EMOTES =
+        Arrays.asList(THUMBS_UP_EMOJI, VICTORY_HAND_EMOJI, METAL_EMOJI, SMILING_FACE_WITH_SMILING_EYES_EMOJI, HUG_EMOJI, FIST_BUMP_EMOJI);
+
+    private Random random;
+
+    public GoodBotCommand() {
+        try {
+            this.random = SecureRandom.getInstanceStrong();
+        } catch (NoSuchAlgorithmException e) {
+            this.random = new Random();
+        }
+    }
 
     @Override
     public Object call() {
         String emoji = null;
         if (getEvent() instanceof MessageReceivedEvent) {
             Message message = ((MessageReceivedEvent) getEvent()).getMessage();
-            emoji = THUMBS_UP_EMOJI;
+            emoji = getRandomEmote();
             message.addReaction(emoji).queue();
         }
 
         return emoji;
+    }
+
+    private String getRandomEmote() {
+        return EMOTES.get(random.nextInt(EMOTES.size()));
     }
 }
