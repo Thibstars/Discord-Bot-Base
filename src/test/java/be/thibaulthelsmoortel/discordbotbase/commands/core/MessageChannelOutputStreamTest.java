@@ -67,6 +67,16 @@ class MessageChannelOutputStreamTest extends BaseTest {
         verify(messageChannel).sendMessage(message);
     }
 
+    @DisplayName("Should write char code to channel.")
+    @Test
+    void shouldWriteCharCodeToChannel() {
+        String message = "a";
+        int charCode = message.toCharArray()[0];
+        messageChannelOutputStream.write(charCode);
+
+        verify(messageChannel).sendMessage(message);
+    }
+
     @DisplayName("Should not write blank message to channel.")
     @ParameterizedTest(name = INDEX_PLACEHOLDER + ": " + ARGUMENTS_PLACEHOLDER)
     @MethodSource("blankStrings")
