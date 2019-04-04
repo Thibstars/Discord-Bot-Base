@@ -47,6 +47,7 @@ class HelpCommandTest extends CommandBaseTest {
         botCommands = new ArrayList<>();
         botCommands.add(new InviteCommand());
         botCommands.add(new GoodBotCommand());
+        botCommands.add(mock(HelpCommand.class));
 
         DiscordBotEnvironment environment = mock(DiscordBotEnvironment.class);
         when(environment.getCommandPrefix()).thenReturn("/");
@@ -56,12 +57,19 @@ class HelpCommandTest extends CommandBaseTest {
 
         Assertions.assertTrue(StringUtils.isNotBlank(message), "Message should not be empty.");
         botCommands.forEach(botCommand -> {
-            Command annotation = botCommand.getClass().getAnnotation(Command.class);
-            Assertions.assertTrue(StringUtils.contains(message, annotation.name()), "Message should contain command name.");
-            Assertions.assertTrue(StringUtils.contains(message, parseDescription(annotation)), "Message should contain command name.");
+            if (!(botCommand instanceof HelpCommand)) {
+                Command annotation = botCommand.getClass().getAnnotation(Command.class);
+                Assertions.assertTrue(StringUtils.contains(message, annotation.name()), "Message should contain command name.");
+                Assertions.assertTrue(StringUtils.contains(message, parseDescription(annotation)), "Message should contain command name.");
+            }
         });
 
         verifyOneMessageSent(message);
+    }
+
+    private String parseDescription(Command annotation) {
+        String array = Arrays.toString(annotation.description());
+        return array.substring(1, array.length() - 1);
     }
 
     @DisplayName("Should not process event.")
@@ -70,11 +78,6 @@ class HelpCommandTest extends CommandBaseTest {
         HelpCommand command = new HelpCommand(mock(DiscordBotEnvironment.class), botCommands);
 
         verifyDoNotProcessEvent(command, mock(Event.class));
-    }
-
-    private String parseDescription(Command annotation) {
-        String array = Arrays.toString(annotation.description());
-        return array.substring(1, array.length() - 1);
     }
 
 }

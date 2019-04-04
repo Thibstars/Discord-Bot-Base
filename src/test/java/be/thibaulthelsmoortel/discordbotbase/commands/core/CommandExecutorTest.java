@@ -84,6 +84,23 @@ class CommandExecutorTest extends BaseTest {
         Assertions.assertTrue(executed, "Command should be executed.");
     }
 
+    @DisplayName("Should execute command with arguments.")
+    @Test
+    void shouldExecuteCommandWithArguments() {
+        String commandName = aboutCommand.getClass().getAnnotation(Command.class).name() + " -h";
+
+        aboutCommand.setEvent(messageReceivedEvent);
+        boolean executed = commandExecutor.tryExecute(messageReceivedEvent, commandName);
+
+        // Assuming the command sends a message back:
+        verify(messageReceivedEvent).getChannel(); // Once for sending the message, once to pass to the output stream
+        verify(messageChannel).sendMessage(anyString());
+        verifyNoMoreInteractions(messageChannel);
+        verifyNoMoreInteractions(messageReceivedEvent);
+
+        Assertions.assertTrue(executed, "Command should be executed.");
+    }
+
     @DisplayName("Should not execute command.")
     @Test
     void shouldNotExecuteCommand() {
