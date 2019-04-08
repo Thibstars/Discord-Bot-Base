@@ -19,15 +19,11 @@
 
 package be.thibaulthelsmoortel.discordbotbase.commands;
 
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import net.dv8tion.jda.core.events.Event;
-import net.dv8tion.jda.core.requests.RestAction;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.util.StringUtils;
