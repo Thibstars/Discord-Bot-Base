@@ -89,7 +89,7 @@ public class DiscordBotRunner extends ListenerAdapter implements CommandLineRunn
     }
 
     @Override
-    public void run(String... args) throws MissingTokenException {
+    public void run(String... args) {
         String token;
         if (StringUtils.isNotBlank(discordBotEnvironment.getToken())) {
             token = discordBotEnvironment.getToken();
