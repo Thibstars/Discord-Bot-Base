@@ -35,7 +35,7 @@
 	<description>Starting point to create Java Discord bot applications.</description>
 
 	<properties>
-		<java.version>11</java.version>
+		<java.version>12</java.version>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 
