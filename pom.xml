@@ -25,7 +25,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.1.7.RELEASE</version>
+		<version>2.2.1.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>be.thibaulthelsmoortel</groupId>
@@ -39,9 +39,9 @@
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 
-		<jda.version>3.8.3_464</jda.version>
+		<jda.version>4.0.0_59</jda.version>
 		<apache.commons.version>3.9</apache.commons.version>
-		<picocli.version>4.0.1</picocli.version>
+		<picocli.version>4.1.1</picocli.version>
 
 		<junit.version>5.4.2</junit.version>
 		<junit.platform.commons.version>1.5.1</junit.platform.commons.version>

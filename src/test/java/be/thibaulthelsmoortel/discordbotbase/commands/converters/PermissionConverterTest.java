@@ -21,7 +21,7 @@
 package be.thibaulthelsmoortel.discordbotbase.commands.converters;
 
 import be.thibaulthelsmoortel.discordbotbase.BaseTest;
-import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.api.Permission;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
