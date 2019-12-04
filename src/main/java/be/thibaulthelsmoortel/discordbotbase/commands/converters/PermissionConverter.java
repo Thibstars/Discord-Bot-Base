@@ -20,7 +20,7 @@
 
 package be.thibaulthelsmoortel.discordbotbase.commands.converters;
 
-import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.api.Permission;
 import picocli.CommandLine.ITypeConverter;
 
 /**

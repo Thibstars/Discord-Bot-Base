@@ -27,12 +27,13 @@ import static org.mockito.Mockito.when;
 
 import be.thibaulthelsmoortel.discordbotbase.BaseTest;
 import be.thibaulthelsmoortel.discordbotbase.commands.core.BotCommand;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.events.Event;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.core.requests.RestAction;
-import net.dv8tion.jda.core.requests.restaction.MessageAction;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.events.Event;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.requests.RestAction;
+import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
@@ -59,9 +60,18 @@ abstract class CommandBaseTest extends BaseTest {
         when(messageChannel.sendMessage(anyString())).thenReturn(mock(MessageAction.class));
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     void verifyOneMessageSent(String message) {
         verify(messageReceivedEvent).getChannel();
         verify(messageChannel).sendMessage(message);
+        verifyNoMoreInteractions(messageChannel);
+        verifyNoMoreInteractions(messageReceivedEvent);
+    }
+
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    void verifyOneMessageSent(MessageEmbed embed) {
+        verify(messageReceivedEvent).getChannel();
+        verify(messageChannel).sendMessage(embed);
         verifyNoMoreInteractions(messageChannel);
         verifyNoMoreInteractions(messageReceivedEvent);
     }

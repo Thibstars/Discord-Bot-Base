@@ -22,7 +22,7 @@ package be.thibaulthelsmoortel.discordbotbase.commands;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import net.dv8tion.jda.core.events.Event;
+import net.dv8tion.jda.api.events.Event;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -41,6 +41,7 @@ class GoodBotCommandTest extends CommandBaseTest {
         this.goodBotCommand = goodBotCommand;
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     @DisplayName("Should add reaction to message.")
     @Test
     void shouldAddReactionToMessage() {

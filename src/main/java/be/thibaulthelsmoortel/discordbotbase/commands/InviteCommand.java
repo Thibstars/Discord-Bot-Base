@@ -23,9 +23,9 @@ package be.thibaulthelsmoortel.discordbotbase.commands;
 import be.thibaulthelsmoortel.discordbotbase.commands.candidates.PermissionCandidates;
 import be.thibaulthelsmoortel.discordbotbase.commands.converters.PermissionConverter;
 import be.thibaulthelsmoortel.discordbotbase.commands.core.BotCommand;
-import net.dv8tion.jda.bot.JDABot;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.springframework.stereotype.Component;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -51,12 +51,12 @@ public class InviteCommand extends BotCommand {
     public Object call() {
         String message = null;
         if (getEvent() instanceof MessageReceivedEvent) {
-            JDABot jdaBot = getEvent().getJDA().asBot();
+            JDA jda = getEvent().getJDA();
 
             if (permissionsRequested.length > 0 && permissions != null && permissions.length > 0) {
-                message = jdaBot.getInviteUrl(permissions);
+                message = jda.getInviteUrl(permissions);
             } else {
-                message = jdaBot.getInviteUrl(Permission.EMPTY_PERMISSIONS);
+                message = jda.getInviteUrl(Permission.EMPTY_PERMISSIONS);
             }
 
             ((MessageReceivedEvent) getEvent()).getChannel().sendMessage(message).queue();

@@ -29,10 +29,9 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import be.thibaulthelsmoortel.discordbotbase.BaseTest;
-import java.io.PrintStream;
 import java.util.stream.Stream;
-import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.requests.restaction.MessageAction;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -58,6 +57,7 @@ class MessageChannelOutputStreamTest extends BaseTest {
         when(messageChannel.sendMessage(anyString())).thenReturn(mock(MessageAction.class));
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     @DisplayName("Should write message to channel.")
     @Test
     void shouldWriteMessageToChannel() {
@@ -67,6 +67,7 @@ class MessageChannelOutputStreamTest extends BaseTest {
         verify(messageChannel).sendMessage(message);
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     @DisplayName("Should write char code to channel.")
     @Test
     void shouldWriteCharCodeToChannel() {
