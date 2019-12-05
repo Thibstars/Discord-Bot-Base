@@ -1,4 +1,5 @@
-# Discord Bot Base [![Build Status](https://travis-ci.org/Thibstars/Discord-Bot-Base.svg?branch=master)](https://travis-ci.org/Thibstars/Discord-Bot-Base) [![codecov](https://codecov.io/gh/Thibstars/Discord-Bot-Base/branch/master/graph/badge.svg)](https://codecov.io/gh/Thibstars/Discord-Bot-Base) # 
+# Discord Bot Base [![Build Status](https://travis-ci.org/Thibstars/Discord-Bot-Base.svg?branch=master)](https://travis-ci.org/Thibstars/Discord-Bot-Base) [![codecov](https://codecov.io/gh/Thibstars/Discord-Bot-Base/branch/master/graph/badge.svg)](https://codecov.io/gh/Thibstars/Discord-Bot-Base) [![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=Thibstars/Discord-Bot-Base)](https://dependabot.com)
+ # 
 This repository serves as a starting point to create Java Discord bot applications. It comes with some default commands and provides some predefined 
 configuration.
 
