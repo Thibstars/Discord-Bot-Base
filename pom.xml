@@ -47,7 +47,7 @@
 		<junit.platform.commons.version>1.5.1</junit.platform.commons.version>
 		<mockito.junit.version>3.0.0</mockito.junit.version>
 
-		<jacoco.version>0.8.4</jacoco.version>
+		<jacoco.version>0.8.5</jacoco.version>
 	</properties>
 
 	<dependencies>
