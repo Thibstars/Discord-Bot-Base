@@ -26,7 +26,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import be.thibaulthelsmoortel.discordbotbase.BaseTest;
-import be.thibaulthelsmoortel.discordbotbase.commands.core.BotCommand;
+import com.github.thibstars.chatbotengine.cli.commands.BaseCommand;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -76,10 +76,10 @@ abstract class CommandBaseTest extends BaseTest {
         verifyNoMoreInteractions(messageReceivedEvent);
     }
 
-    void verifyDoNotProcessEvent(BotCommand botCommand, Event event) throws Exception {
-        botCommand.setEvent(event);
+    void verifyDoNotProcessEvent(BaseCommand baseCommand, Event event) throws Exception {
+        baseCommand.setContext(event);
 
-        String message = (String) botCommand.call();
+        String message = (String) baseCommand.call();
 
         Assertions.assertNull(message, "Message should not be processed.");
         verifyNoMoreJDAInteractions();

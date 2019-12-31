@@ -20,8 +20,8 @@
 
 package be.thibaulthelsmoortel.discordbotbase.commands;
 
-import be.thibaulthelsmoortel.discordbotbase.commands.core.BotCommand;
 import be.thibaulthelsmoortel.discordbotbase.config.DiscordBotEnvironment;
+import com.github.thibstars.chatbotengine.cli.commands.BaseCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -37,7 +37,7 @@ import picocli.CommandLine.Command;
  */
 @Command(name = "about", description = "Provides general information about the bot.")
 @Component
-public class AboutCommand extends BotCommand {
+public class AboutCommand extends BaseCommand<MessageReceivedEvent, Object> {
 
     private final DiscordBotEnvironment discordBotEnvironment;
 
@@ -50,7 +50,7 @@ public class AboutCommand extends BotCommand {
     public Object call() {
         MessageEmbed embed = null;
 
-        if (getEvent() instanceof MessageReceivedEvent) {
+        if (getContext() != null) {
             EmbedBuilder embedBuilder = new EmbedBuilder();
             if (StringUtils.isAllBlank(discordBotEnvironment.getName(), discordBotEnvironment.getAuthor())) {
                 embedBuilder.setTitle("Mystery bot by mystery author.");
@@ -62,7 +62,7 @@ public class AboutCommand extends BotCommand {
             }
 
             embed = embedBuilder.build();
-            ((MessageReceivedEvent) getEvent()).getChannel().sendMessage(embed).queue();
+            getContext().getChannel().sendMessage(embed).queue();
         }
 
         return embed;

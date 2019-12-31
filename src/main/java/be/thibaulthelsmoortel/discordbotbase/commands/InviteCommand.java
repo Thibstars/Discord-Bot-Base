@@ -22,7 +22,7 @@ package be.thibaulthelsmoortel.discordbotbase.commands;
 
 import be.thibaulthelsmoortel.discordbotbase.commands.candidates.PermissionCandidates;
 import be.thibaulthelsmoortel.discordbotbase.commands.converters.PermissionConverter;
-import be.thibaulthelsmoortel.discordbotbase.commands.core.BotCommand;
+import com.github.thibstars.chatbotengine.cli.commands.BaseCommand;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -38,7 +38,7 @@ import picocli.CommandLine.Parameters;
  */
 @Command(name = "invite", description = "Provides an invitation url for the bot.")
 @Component
-public class InviteCommand extends BotCommand {
+public class InviteCommand extends BaseCommand<MessageReceivedEvent, Object> {
 
     @Option(names = {"-p", "--permission"}, description = "Target bot permission.", arity = "0..1")
     private boolean[] permissionsRequested = new boolean[0];
@@ -50,8 +50,8 @@ public class InviteCommand extends BotCommand {
     @Override
     public Object call() {
         String message = null;
-        if (getEvent() instanceof MessageReceivedEvent) {
-            JDA jda = getEvent().getJDA();
+        if (getContext() != null) {
+            JDA jda = getContext().getJDA();
 
             if (permissionsRequested.length > 0 && permissions != null && permissions.length > 0) {
                 message = jda.getInviteUrl(permissions);
@@ -59,7 +59,7 @@ public class InviteCommand extends BotCommand {
                 message = jda.getInviteUrl(Permission.EMPTY_PERMISSIONS);
             }
 
-            ((MessageReceivedEvent) getEvent()).getChannel().sendMessage(message).queue();
+            getContext().getChannel().sendMessage(message).queue();
         }
 
         reset();

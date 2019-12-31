@@ -30,6 +30,7 @@ import static org.mockito.Mockito.when;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.Event;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -70,7 +71,7 @@ class InviteCommandTest extends CommandBaseTest {
     @DisplayName("Should return invite url without permissions.")
     @Test
     void shouldReturnInviteUrlWithoutPermissions() {
-        inviteCommand.setEvent(messageReceivedEvent);
+        inviteCommand.setContext(messageReceivedEvent);
 
         String message = (String) inviteCommand.call();
 
@@ -95,7 +96,7 @@ class InviteCommandTest extends CommandBaseTest {
         inviteCommand.setPermissions(permissions);
 
         when(jda.getInviteUrl(permissions)).thenReturn(INVITE_URL_WITH_PERMISSIONS);
-        inviteCommand.setEvent(messageReceivedEvent);
+        inviteCommand.setContext(messageReceivedEvent);
 
         String message = (String) inviteCommand.call();
         Assertions.assertNotNull(message, "Invite url must not be null.");
@@ -112,7 +113,7 @@ class InviteCommandTest extends CommandBaseTest {
         inviteCommand.setPermissions(null);
 
         when(jda.getInviteUrl(any(Permission[].class))).thenReturn(INVITE_URL_WITH_PERMISSIONS);
-        inviteCommand.setEvent(messageReceivedEvent);
+        inviteCommand.setContext(messageReceivedEvent);
 
         String message = (String) inviteCommand.call();
         Assertions.assertNotNull(message, "Invite url must not be null.");
@@ -125,6 +126,6 @@ class InviteCommandTest extends CommandBaseTest {
     @DisplayName("Should not process event.")
     @Test
     void shouldNotProcessEvent() throws Exception {
-        verifyDoNotProcessEvent(inviteCommand, mock(Event.class));
+        verifyDoNotProcessEvent(inviteCommand, null);
     }
 }

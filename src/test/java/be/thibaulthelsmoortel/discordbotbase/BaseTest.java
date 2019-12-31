@@ -20,14 +20,17 @@
 
 package be.thibaulthelsmoortel.discordbotbase;
 
-import org.junit.jupiter.api.extension.ExtendWith;
+import com.github.thibstars.chatbotengine.provider.discord.DiscordProvider;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 /**
  * @author Thibault Helsmoortel
  */
-@ExtendWith(SpringExtension.class)
 @SpringBootTest
 public abstract class BaseTest {
+
+    @MockBean
+    private DiscordProvider discordProvider;
+
 }

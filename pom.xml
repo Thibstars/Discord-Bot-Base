@@ -65,7 +65,7 @@
 		<dependency>
 			<groupId>com.github.thibstars</groupId>
 			<artifactId>chatbot-engine</artifactId>
-			<version>77a01a261e</version>
+			<version>da43f72c5d</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/net.dv8tion/JDA -->
 		<dependency>

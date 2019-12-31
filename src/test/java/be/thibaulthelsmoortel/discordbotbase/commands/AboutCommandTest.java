@@ -47,7 +47,7 @@ class AboutCommandTest extends CommandBaseTest {
         when(discordBotEnvironment.getName()).thenReturn(null);
         when(discordBotEnvironment.getAuthor()).thenReturn(null);
         AboutCommand command = new AboutCommand(discordBotEnvironment);
-        command.setEvent(messageReceivedEvent);
+        command.setContext(messageReceivedEvent);
 
         when(messageChannel.sendMessage(any(MessageEmbed.class))).thenReturn(mock(MessageAction.class));
 
@@ -70,7 +70,7 @@ class AboutCommandTest extends CommandBaseTest {
         when(discordBotEnvironment.getDescription()).thenReturn(description);
 
         AboutCommand command = new AboutCommand(discordBotEnvironment);
-        command.setEvent(messageReceivedEvent);
+        command.setContext(messageReceivedEvent);
 
         when(messageChannel.sendMessage(any(MessageEmbed.class))).thenReturn(mock(MessageAction.class));
 
@@ -92,7 +92,7 @@ class AboutCommandTest extends CommandBaseTest {
         when(discordBotEnvironment.getDescription()).thenReturn(description);
 
         AboutCommand command = new AboutCommand(discordBotEnvironment);
-        command.setEvent(messageReceivedEvent);
+        command.setContext(messageReceivedEvent);
 
         when(messageChannel.sendMessage(any(MessageEmbed.class))).thenReturn(mock(MessageAction.class));
 
@@ -109,7 +109,7 @@ class AboutCommandTest extends CommandBaseTest {
     void shouldNotProcessEvent() throws Exception {
         AboutCommand command = new AboutCommand(discordBotEnvironment);
 
-        verifyDoNotProcessEvent(command, mock(Event.class));
+        verifyDoNotProcessEvent(command, null);
     }
 
 }

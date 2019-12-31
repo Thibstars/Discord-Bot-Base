@@ -20,6 +20,7 @@
 
 package be.thibaulthelsmoortel.discordbotbase.commands.core;
 
+import com.github.thibstars.chatbotengine.cli.commands.BaseCommand;
 import java.io.PrintStream;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -43,13 +44,13 @@ public class CommandExecutor {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CommandExecutor.class);
 
-    private final List<BotCommand> botCommands;
+    private final List<BaseCommand> baseCommands;
     private final MessageChannelOutputStream messageChannelOutputStream;
     private final PrintStream printStream;
 
     @Autowired
-    public CommandExecutor(List<BotCommand> botCommands, MessageChannelOutputStream messageChannelOutputStream) {
-        this.botCommands = botCommands;
+    public CommandExecutor(List<BaseCommand> baseCommands, MessageChannelOutputStream messageChannelOutputStream) {
+        this.baseCommands = baseCommands;
         this.messageChannelOutputStream = messageChannelOutputStream;
         printStream = new PrintStream(messageChannelOutputStream);
     }
@@ -65,13 +66,13 @@ public class CommandExecutor {
         AtomicBoolean commandRecognised = new AtomicBoolean(false);
 
         if (StringUtils.isNotBlank(commandMessage)) {
-            botCommands.forEach(command -> {
+            baseCommands.forEach(command -> {
                 Command commandType = command.getClass().getAnnotation(Command.class);
                 String commandName = commandType.name();
 
                 if (commandMessage.split(" ")[0].equals(commandName)) {
                     commandRecognised.set(true);
-                    command.setEvent(event);
+                    command.setContext(event);
                     String args = commandMessage.substring(commandMessage.indexOf(commandType.name()) + commandType.name().length()).trim();
 
                     messageChannelOutputStream.setMessageChannel(event.getChannel());
