@@ -41,6 +41,7 @@
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 
+		<chatbot.engine.version>0.0.1</chatbot.engine.version>
 		<jda.version>4.1.0_88</jda.version>
 		<apache.commons.version>3.9</apache.commons.version>
 		<picocli.version>4.1.4</picocli.version>
@@ -65,7 +66,7 @@
 		<dependency>
 			<groupId>com.github.thibstars</groupId>
 			<artifactId>chatbot-engine</artifactId>
-			<version>da43f72c5d</version>
+			<version>${chatbot.engine.version}</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/net.dv8tion/JDA -->
 		<dependency>
