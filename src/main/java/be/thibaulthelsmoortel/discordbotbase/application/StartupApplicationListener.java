@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.ApplicationListener;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 /**
@@ -47,7 +48,7 @@ public class StartupApplicationListener implements ApplicationListener<Applicati
     }
 
     @Override
-    public void onApplicationEvent(ApplicationStartedEvent applicationStartedEvent) {
+    public void onApplicationEvent(@NonNull ApplicationStartedEvent applicationStartedEvent) {
         LOGGER.info("Application started.");
         if (StringUtils.isNotBlank(discordBotEnvironment.getAuthor())) {
             LOGGER.info("Author: {}", discordBotEnvironment.getAuthor());
