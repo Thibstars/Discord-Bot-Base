@@ -24,8 +24,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import be.thibaulthelsmoortel.discordbotbase.commands.core.BotCommand;
 import be.thibaulthelsmoortel.discordbotbase.config.DiscordBotEnvironment;
+import com.github.thibstars.chatbotengine.cli.commands.BaseCommand;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -45,19 +45,19 @@ import picocli.CommandLine.Command;
  */
 class HelpCommandTest extends CommandBaseTest {
 
-    private List<BotCommand> botCommands;
+    private List<BaseCommand> baseCommands;
 
     @DisplayName("Should send help message.")
     @Test
     void shouldSendHelpMessage() {
-        botCommands = new ArrayList<>();
-        botCommands.add(new InviteCommand());
-        botCommands.add(mock(HelpCommand.class));
+        baseCommands = new ArrayList<>();
+        baseCommands.add(new InviteCommand());
+        baseCommands.add(mock(HelpCommand.class));
 
         DiscordBotEnvironment environment = mock(DiscordBotEnvironment.class);
         when(environment.getCommandPrefix()).thenReturn("/");
-        HelpCommand command = new HelpCommand(environment, botCommands);
-        command.setEvent(messageReceivedEvent);
+        HelpCommand command = new HelpCommand(environment, baseCommands);
+        command.setContext(messageReceivedEvent);
 
         when(messageChannel.getType()).thenReturn(ChannelType.UNKNOWN);
         when(messageChannel.getId()).thenReturn("id");
@@ -69,9 +69,9 @@ class HelpCommandTest extends CommandBaseTest {
         Assertions.assertTrue(StringUtils.isNotBlank(embedded.getDescription()), "Description should not be empty.");
         Assertions.assertNotNull(embedded.getFields(), "Message fields must not be null.");
         Assertions.assertFalse(embedded.getFields().isEmpty(), "Message fields must not be empty.");
-        botCommands.forEach(botCommand -> {
-            if (!(botCommand instanceof HelpCommand)) {
-                Command annotation = botCommand.getClass().getAnnotation(Command.class);
+        baseCommands.forEach(baseCommand -> {
+            if (!(baseCommand instanceof HelpCommand)) {
+                Command annotation = baseCommand.getClass().getAnnotation(Command.class);
                 Assertions.assertTrue(embedded.getFields().stream().anyMatch(field -> Objects.equals(field.getName(), annotation.name())),
                     "Message should contain command name.");
                 Assertions.assertTrue(embedded.getFields().stream().anyMatch(field -> Objects.equals(field.getValue(), parseDescription(annotation))),
@@ -94,9 +94,9 @@ class HelpCommandTest extends CommandBaseTest {
     @DisplayName("Should not process event.")
     @Test
     void shouldNotProcessEvent() throws Exception {
-        HelpCommand command = new HelpCommand(mock(DiscordBotEnvironment.class), botCommands);
+        HelpCommand command = new HelpCommand(mock(DiscordBotEnvironment.class), baseCommands);
 
-        verifyDoNotProcessEvent(command, mock(Event.class));
+        verifyDoNotProcessEvent(command, null);
     }
 
 }

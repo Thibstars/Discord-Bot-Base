@@ -19,8 +19,8 @@
 
 package be.thibaulthelsmoortel.discordbotbase.commands;
 
-import be.thibaulthelsmoortel.discordbotbase.commands.core.BotCommand;
 import be.thibaulthelsmoortel.discordbotbase.config.DiscordBotEnvironment;
+import com.github.thibstars.chatbotengine.cli.commands.BaseCommand;
 import java.util.Arrays;
 import java.util.List;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -35,36 +35,36 @@ import picocli.CommandLine.Command;
  */
 @Command(name = "help", description = "Provides command usage help.")
 @Component
-public class HelpCommand extends BotCommand {
+public class HelpCommand extends BaseCommand<MessageReceivedEvent, Object> {
 
     private final DiscordBotEnvironment discordBotEnvironment;
-    private final List<BotCommand> botCommands;
+    private final List<BaseCommand> baseCommands;
 
     @Autowired
     public HelpCommand(DiscordBotEnvironment discordBotEnvironment,
-        List<BotCommand> botCommands) {
+        List<BaseCommand> baseCommands) {
         this.discordBotEnvironment = discordBotEnvironment;
-        this.botCommands = botCommands;
+        this.baseCommands = baseCommands;
     }
 
     @Override
     public Object call() {
         EmbedBuilder embedBuilder = new EmbedBuilder();
-        if (getEvent() instanceof MessageReceivedEvent) {
+        if (getContext() != null) {
             StringBuilder descriptionBuilder = embedBuilder.getDescriptionBuilder();
             descriptionBuilder.append("Usage: ").append(discordBotEnvironment.getCommandPrefix()).append("COMMAND [OPTIONS]")
                 .append(String.format("%n%n%s%n%n", discordBotEnvironment.getDescription()))
                 .append(String.format("%s%n", "Commands:"));
 
-            botCommands.forEach(botCommand -> {
-                if (!(botCommand instanceof HelpCommand)) {
-                    Command annotation = botCommand.getClass().getAnnotation(Command.class);
+            baseCommands.forEach(baseCommand -> {
+                if (!(baseCommand instanceof HelpCommand)) {
+                    Command annotation = baseCommand.getClass().getAnnotation(Command.class);
                     embedBuilder.addField(annotation.name(), parseDescription(annotation), false);
                 }
             });
 
             MessageEmbed embed = embedBuilder.build();
-            ((MessageReceivedEvent) getEvent()).getChannel().sendMessage(embed).queue();
+            getContext().getChannel().sendMessage(embed).queue();
 
             return embed;
         }

@@ -28,9 +28,11 @@
 		<version>2.2.2.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+
 	<groupId>be.thibaulthelsmoortel</groupId>
 	<artifactId>discord-bot-base</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+
 	<name>Discord Bot Base</name>
 	<description>Starting point to create Java Discord bot applications.</description>
 
@@ -39,6 +41,7 @@
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 
+		<chatbot.engine.version>0.0.1</chatbot.engine.version>
 		<jda.version>4.1.0_88</jda.version>
 		<apache.commons.version>3.9</apache.commons.version>
 		<picocli.version>4.1.4</picocli.version>
@@ -59,6 +62,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-configuration-processor</artifactId>
 			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.github.thibstars</groupId>
+			<artifactId>chatbot-engine</artifactId>
+			<version>${chatbot.engine.version}</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/net.dv8tion/JDA -->
 		<dependency>
@@ -173,6 +181,10 @@
 			<id>jcenter</id>
 			<name>jcenter-bintray</name>
 			<url>http://jcenter.bintray.com</url>
+		</repository>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
 		</repository>
 	</repositories>
 

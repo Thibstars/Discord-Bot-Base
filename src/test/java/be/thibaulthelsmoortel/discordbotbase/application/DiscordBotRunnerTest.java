@@ -29,6 +29,8 @@ import static org.mockito.Mockito.when;
 import be.thibaulthelsmoortel.discordbotbase.BaseTest;
 import be.thibaulthelsmoortel.discordbotbase.commands.core.CommandExecutor;
 import be.thibaulthelsmoortel.discordbotbase.config.DiscordBotEnvironment;
+import com.github.thibstars.chatbotengine.auth.discord.DiscordTokenAuthentication;
+import com.github.thibstars.chatbotengine.provider.discord.DiscordProvider;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -66,9 +68,15 @@ class DiscordBotRunnerTest extends BaseTest {
     @Mock
     private User user;
 
+    @Mock
+    private DiscordProvider discordProvider;
+
+    @Mock
+    private DiscordTokenAuthentication discordTokenAuthentication;
+
     @BeforeEach
     void setUp() {
-        this.discordBotRunner = new DiscordBotRunner(discordBotEnvironment, commandExecutor);
+        this.discordBotRunner = new DiscordBotRunner(discordBotEnvironment, commandExecutor, discordProvider, discordTokenAuthentication);
     }
 
     @DisplayName("Should handle message received.")

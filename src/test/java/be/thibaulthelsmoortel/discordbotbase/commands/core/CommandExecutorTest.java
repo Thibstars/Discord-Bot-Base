@@ -77,7 +77,7 @@ class CommandExecutorTest extends BaseTest {
     void shouldExecuteCommand() {
         String commandName = aboutCommand.getClass().getAnnotation(Command.class).name();
 
-        aboutCommand.setEvent(messageReceivedEvent);
+        aboutCommand.setContext(messageReceivedEvent);
         boolean executed = commandExecutor.tryExecute(messageReceivedEvent, commandName);
 
         // Assuming the command sends a message back:
@@ -95,7 +95,7 @@ class CommandExecutorTest extends BaseTest {
     void shouldExecuteCommandWithArguments() {
         String commandName = aboutCommand.getClass().getAnnotation(Command.class).name() + " -h";
 
-        aboutCommand.setEvent(messageReceivedEvent);
+        aboutCommand.setContext(messageReceivedEvent);
         boolean executed = commandExecutor.tryExecute(messageReceivedEvent, commandName);
 
         // Assuming the command sends a message back:
