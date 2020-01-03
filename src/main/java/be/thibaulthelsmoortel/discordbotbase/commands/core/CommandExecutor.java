@@ -21,6 +21,7 @@
 package be.thibaulthelsmoortel.discordbotbase.commands.core;
 
 import com.github.thibstars.chatbotengine.cli.commands.BaseCommand;
+import com.github.thibstars.chatbotengine.cli.io.discord.MessageChannelOutputStream;
 import java.io.PrintStream;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
