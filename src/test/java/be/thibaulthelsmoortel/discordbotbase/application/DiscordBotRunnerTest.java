@@ -22,6 +22,7 @@ package be.thibaulthelsmoortel.discordbotbase.application;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -104,7 +105,7 @@ class DiscordBotRunnerTest extends BaseTest {
 
         verify(messageChannel).sendTyping();
         verifyNoMoreInteractions(messageChannel);
-        verify(commandExecutor).tryExecute(messageReceivedEvent, message, any());
+        verify(commandExecutor).tryExecute(eq(messageReceivedEvent), eq(message), any(Runnable.class));
         verifyNoMoreInteractions(commandExecutor);
     }
 
@@ -155,7 +156,7 @@ class DiscordBotRunnerTest extends BaseTest {
 
         verify(messageChannel).sendTyping();
         verifyNoMoreInteractions(messageChannel);
-        verify(commandExecutor).tryExecute(messageReceivedEvent, message, any());
+        verify(commandExecutor).tryExecute(eq(messageReceivedEvent), eq(message), any(Runnable.class));
         verifyNoMoreInteractions(commandExecutor);
     }
 
