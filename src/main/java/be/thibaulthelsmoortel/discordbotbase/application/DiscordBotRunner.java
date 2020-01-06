@@ -20,10 +20,11 @@
 
 package be.thibaulthelsmoortel.discordbotbase.application;
 
-import be.thibaulthelsmoortel.discordbotbase.commands.core.CommandExecutor;
 import be.thibaulthelsmoortel.discordbotbase.config.DiscordBotEnvironment;
 import com.github.thibstars.chatbotengine.auth.discord.DiscordTokenAuthentication;
 import com.github.thibstars.chatbotengine.auth.discord.DiscordTokenAuthenticationHandler;
+import com.github.thibstars.chatbotengine.cli.commands.CommandExecutor;
+import com.github.thibstars.chatbotengine.cli.io.discord.MessageChannelOutputStream;
 import com.github.thibstars.chatbotengine.provider.discord.DiscordProvider;
 import java.util.Objects;
 import net.dv8tion.jda.api.JDABuilder;
@@ -50,15 +51,18 @@ public class DiscordBotRunner extends ListenerAdapter implements CommandLineRunn
 
     private final DiscordProvider discordProvider;
     private final DiscordTokenAuthentication discordTokenAuthentication;
+    private final MessageChannelOutputStream messageChannelOutputStream;
 
     @Autowired
     public DiscordBotRunner(DiscordBotEnvironment discordBotEnvironment,
         CommandExecutor commandExecutor, DiscordProvider discordProvider,
-        DiscordTokenAuthentication discordTokenAuthentication) {
+        DiscordTokenAuthentication discordTokenAuthentication,
+        MessageChannelOutputStream messageChannelOutputStream) {
         this.discordBotEnvironment = discordBotEnvironment;
         this.commandExecutor = commandExecutor;
         this.discordProvider = discordProvider;
         this.discordTokenAuthentication = discordTokenAuthentication;
+        this.messageChannelOutputStream = messageChannelOutputStream;
     }
 
     @Override
@@ -86,8 +90,8 @@ public class DiscordBotRunner extends ListenerAdapter implements CommandLineRunn
             event.getChannel().sendTyping().queue();
 
             String parsedMessage = msg.substring(discordBotEnvironment.getCommandPrefix().length());
-
-            commandExecutor.tryExecute(event, parsedMessage);
+            messageChannelOutputStream.setMessageChannel(event.getChannel());
+            commandExecutor.tryExecute(event, parsedMessage, () -> event.getChannel().sendMessage("Command not recognized...").queue());
         }
     }
 
