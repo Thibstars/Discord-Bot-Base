@@ -20,16 +20,19 @@
 
 package be.thibaulthelsmoortel.discordbotbase.application;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import be.thibaulthelsmoortel.discordbotbase.BaseTest;
-import be.thibaulthelsmoortel.discordbotbase.commands.core.CommandExecutor;
 import be.thibaulthelsmoortel.discordbotbase.config.DiscordBotEnvironment;
 import com.github.thibstars.chatbotengine.auth.discord.DiscordTokenAuthentication;
+import com.github.thibstars.chatbotengine.cli.commands.CommandExecutor;
+import com.github.thibstars.chatbotengine.cli.io.discord.MessageChannelOutputStream;
 import com.github.thibstars.chatbotengine.provider.discord.DiscordProvider;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
@@ -74,9 +77,13 @@ class DiscordBotRunnerTest extends BaseTest {
     @Mock
     private DiscordTokenAuthentication discordTokenAuthentication;
 
+    @Mock
+    private MessageChannelOutputStream messageChannelOutputStream;
+
     @BeforeEach
     void setUp() {
-        this.discordBotRunner = new DiscordBotRunner(discordBotEnvironment, commandExecutor, discordProvider, discordTokenAuthentication);
+        this.discordBotRunner = new DiscordBotRunner(discordBotEnvironment, commandExecutor, discordProvider, discordTokenAuthentication,
+            messageChannelOutputStream);
     }
 
     @DisplayName("Should handle message received.")
@@ -98,7 +105,7 @@ class DiscordBotRunnerTest extends BaseTest {
 
         verify(messageChannel).sendTyping();
         verifyNoMoreInteractions(messageChannel);
-        verify(commandExecutor).tryExecute(messageReceivedEvent, message);
+        verify(commandExecutor).tryExecute(eq(messageReceivedEvent), eq(message), any(Runnable.class));
         verifyNoMoreInteractions(commandExecutor);
     }
 
@@ -149,7 +156,7 @@ class DiscordBotRunnerTest extends BaseTest {
 
         verify(messageChannel).sendTyping();
         verifyNoMoreInteractions(messageChannel);
-        verify(commandExecutor).tryExecute(messageReceivedEvent, message);
+        verify(commandExecutor).tryExecute(eq(messageReceivedEvent), eq(message), any(Runnable.class));
         verifyNoMoreInteractions(commandExecutor);
     }
 

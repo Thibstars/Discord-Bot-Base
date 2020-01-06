@@ -20,9 +20,9 @@
 
 package be.thibaulthelsmoortel.discordbotbase.commands;
 
-import be.thibaulthelsmoortel.discordbotbase.commands.candidates.PermissionCandidates;
-import be.thibaulthelsmoortel.discordbotbase.commands.converters.PermissionConverter;
+import com.github.thibstars.chatbotengine.cli.candidates.discord.PermissionCandidates;
 import com.github.thibstars.chatbotengine.cli.commands.BaseCommand;
+import com.github.thibstars.chatbotengine.cli.converters.discord.PermissionConverter;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;

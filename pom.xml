@@ -41,7 +41,7 @@
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 
-		<chatbot.engine.version>0.0.1</chatbot.engine.version>
+		<chatbot.engine.version>0.0.2</chatbot.engine.version>
 		<jda.version>4.1.0_95</jda.version>
 		<apache.commons.version>3.9</apache.commons.version>
 		<picocli.version>4.1.4</picocli.version>
