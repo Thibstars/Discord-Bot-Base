@@ -21,6 +21,7 @@
 package be.thibaulthelsmoortel.discordbotbase.config;
 
 import be.thibaulthelsmoortel.discordbotbase.BaseTest;
+import com.github.thibstars.chatbotengine.cli.commands.BaseCommand;
 import java.util.List;
 import org.apache.commons.collections4.CollectionUtils;
 import org.junit.jupiter.api.Assertions;
@@ -33,10 +34,10 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 class CommandsConfigTest extends BaseTest {
 
-    private final List commands;
+    private final List<BaseCommand> commands;
 
     @Autowired
-    CommandsConfigTest(List commands) {
+    CommandsConfigTest(List<BaseCommand> commands) {
         this.commands = commands;
     }
 

@@ -30,6 +30,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 @SpringBootTest
 public abstract class BaseTest {
 
+    @SuppressWarnings("unused")
     @MockBean
     private DiscordProvider discordProvider;
 

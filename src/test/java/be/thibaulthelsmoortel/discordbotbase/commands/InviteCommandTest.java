@@ -29,8 +29,6 @@ import static org.mockito.Mockito.when;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.events.Event;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -82,6 +80,7 @@ class InviteCommandTest extends CommandBaseTest {
         verifyOneMessageSent();
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     private void verifyOneMessageSent() {
         verify(messageReceivedEvent).getChannel();
         verify(messageChannel).sendMessage(anyString());

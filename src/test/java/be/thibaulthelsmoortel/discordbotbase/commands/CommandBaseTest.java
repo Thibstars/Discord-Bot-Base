@@ -79,9 +79,9 @@ abstract class CommandBaseTest extends BaseTest {
     void verifyDoNotProcessEvent(BaseCommand baseCommand, Event event) throws Exception {
         baseCommand.setContext(event);
 
-        String message = (String) baseCommand.call();
+        String messageValue = (String) baseCommand.call();
 
-        Assertions.assertNull(message, "Message should not be processed.");
+        Assertions.assertNull(messageValue, "Message should not be processed.");
         verifyNoMoreJDAInteractions();
     }
 
