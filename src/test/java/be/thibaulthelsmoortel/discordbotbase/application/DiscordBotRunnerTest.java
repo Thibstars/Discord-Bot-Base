@@ -86,6 +86,7 @@ class DiscordBotRunnerTest extends BaseTest {
             messageChannelOutputStream);
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     @DisplayName("Should handle message received.")
     @Test
     void shouldHandleMessageReceived() {
@@ -109,6 +110,7 @@ class DiscordBotRunnerTest extends BaseTest {
         verifyNoMoreInteractions(commandExecutor);
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     @DisplayName("Should send message on guild ready.")
     @Test
     void shouldSendMessageOnGuildReady() {
@@ -139,6 +141,7 @@ class DiscordBotRunnerTest extends BaseTest {
         verify(messageReceivedEvent).getMessage(); // 1 to check processing
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     @DisplayName("Should process bot messages.")
     @Test
     void shouldProcessBotMessages() {

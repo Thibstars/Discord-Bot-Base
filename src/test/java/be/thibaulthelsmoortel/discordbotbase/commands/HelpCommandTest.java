@@ -32,7 +32,6 @@ import java.util.List;
 import java.util.Objects;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.events.Event;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Assertions;
