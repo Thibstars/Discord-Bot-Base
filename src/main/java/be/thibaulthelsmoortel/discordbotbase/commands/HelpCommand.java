@@ -23,10 +23,10 @@ import be.thibaulthelsmoortel.discordbotbase.config.DiscordBotEnvironment;
 import com.github.thibstars.chatbotengine.cli.commands.BaseCommand;
 import java.util.Arrays;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import picocli.CommandLine.Command;
 
@@ -35,17 +35,11 @@ import picocli.CommandLine.Command;
  */
 @Command(name = "help", description = "Provides command usage help.")
 @Component
+@RequiredArgsConstructor
 public class HelpCommand extends BaseCommand<MessageReceivedEvent, Object> {
 
     private final DiscordBotEnvironment discordBotEnvironment;
     private final List<BaseCommand> baseCommands;
-
-    @Autowired
-    public HelpCommand(DiscordBotEnvironment discordBotEnvironment,
-        List<BaseCommand> baseCommands) {
-        this.discordBotEnvironment = discordBotEnvironment;
-        this.baseCommands = baseCommands;
-    }
 
     @Override
     public Object call() {

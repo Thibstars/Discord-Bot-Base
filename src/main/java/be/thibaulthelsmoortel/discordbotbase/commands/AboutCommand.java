@@ -22,6 +22,7 @@ package be.thibaulthelsmoortel.discordbotbase.commands;
 
 import be.thibaulthelsmoortel.discordbotbase.config.DiscordBotEnvironment;
 import com.github.thibstars.chatbotengine.cli.commands.BaseCommand;
+import lombok.RequiredArgsConstructor;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -37,14 +38,10 @@ import picocli.CommandLine.Command;
  */
 @Command(name = "about", description = "Provides general information about the bot.")
 @Component
+@RequiredArgsConstructor
 public class AboutCommand extends BaseCommand<MessageReceivedEvent, Object> {
 
     private final DiscordBotEnvironment discordBotEnvironment;
-
-    @Autowired
-    public AboutCommand(DiscordBotEnvironment discordBotEnvironment) {
-        this.discordBotEnvironment = discordBotEnvironment;
-    }
 
     @Override
     public Object call() {
