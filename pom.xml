@@ -47,7 +47,7 @@
 		<picocli.version>4.1.4</picocli.version>
 
 		<junit.version>5.5.2</junit.version>
-		<junit.platform.commons.version>1.5.2</junit.platform.commons.version>
+		<junit.platform.commons.version>1.6.0</junit.platform.commons.version>
 		<mockito.junit.version>3.2.4</mockito.junit.version>
 
 		<jacoco.version>0.8.5</jacoco.version>
