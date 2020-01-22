@@ -91,7 +91,7 @@ public class DiscordBotRunner extends ListenerAdapter implements CommandLineRunn
 
             String parsedMessage = msg.substring(discordBotEnvironment.getCommandPrefix().length());
             messageChannelOutputStream.setMessageChannel(event.getChannel());
-            commandExecutor.tryExecute(event, parsedMessage, () -> event.getChannel().sendMessage("Command not recognized...").queue());
+            commandExecutor.tryExecute(event, parsedMessage, () -> event.getChannel().sendMessage("Command not recognized...").queue(), () -> event.getChannel().sendMessage("Command failed!").queue());
         }
     }
 
