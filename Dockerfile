@@ -8,4 +8,4 @@ RUN mvn clean -Dmaven.test.skip=true package -f pom.xml
 FROM adoptopenjdk/openjdk12
 COPY --from=MAVEN_TOOL_CHAIN /tmp/target/*.jar app.jar
 # Make sure to provide an environment variable `BOT_TOKEN`
-ENTRYPOINT exec java -jar /app.jar $BOT_TOKEN
+ENTRYPOINT exec java -jar /app.jar --bot.token=$BOT_TOKEN
