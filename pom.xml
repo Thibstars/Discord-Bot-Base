@@ -47,7 +47,6 @@
 		<picocli.version>4.1.4</picocli.version>
 
 		<junit.version>5.5.2</junit.version>
-		<junit.platform.commons.version>1.6.0</junit.platform.commons.version>
 		<mockito.junit.version>3.2.4</mockito.junit.version>
 
 		<jacoco.version>0.8.5</jacoco.version>
@@ -118,12 +117,6 @@
 			<artifactId>junit-jupiter-params</artifactId>
 			<version>${junit.version}</version>
 			<scope>test</scope>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-commons -->
-		<dependency>
-			<groupId>org.junit.platform</groupId>
-			<artifactId>junit-platform-commons</artifactId>
-			<version>${junit.platform.commons.version}</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter -->
 		<dependency>
