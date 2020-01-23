@@ -11,7 +11,7 @@ To facilitate this, the project makes use of [JDA](https://github.com/DV8FromThe
 In order to run the application, one must first add a Discord bot token to `bot.token` in the `token.properties` file.
 **Note that a bot token should never be committed in git!**
 
-When running directly using `java -jar` you can also pass your token as a first run argument instead. This is also the used approach in the `Dockerfile`.
+When running directly using `java -jar` you can also pass your token as a run argument instead. This is also the used approach in the `Dockerfile`.
 
 ### Docker ###
 When running the application from the `Dockerfile` make sure to add a new `BOT_TOKEN` environment variable with the bot token as value so it can be picked up 

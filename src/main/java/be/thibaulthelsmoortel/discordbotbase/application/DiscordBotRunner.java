@@ -33,7 +33,6 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -97,17 +96,7 @@ public class DiscordBotRunner extends ListenerAdapter implements CommandLineRunn
 
     @Override
     public void run(String... args) {
-        String token;
-        if (StringUtils.isNotBlank(discordBotEnvironment.getToken())) {
-            token = discordBotEnvironment.getToken();
-        } else {
-            // Take token as first run arg (for example for when running from docker with an ENV variable)
-            if (args != null && args.length > 0) {
-                token = args[0];
-            } else {
-                token = null;
-            }
-        }
+        String token = discordBotEnvironment.getToken();
 
         JDABuilder jdaBuilder = ((DiscordTokenAuthenticationHandler) discordTokenAuthentication.getHandler()).getJdaBuilder();
         jdaBuilder.addEventListeners(this);
