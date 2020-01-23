@@ -27,13 +27,13 @@ import com.github.thibstars.chatbotengine.cli.commands.CommandExecutor;
 import com.github.thibstars.chatbotengine.cli.io.discord.MessageChannelOutputStream;
 import com.github.thibstars.chatbotengine.provider.discord.DiscordProvider;
 import java.util.Objects;
+import lombok.RequiredArgsConstructor;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -43,6 +43,7 @@ import org.springframework.stereotype.Component;
  * @author Thibault Helsmoortel
  */
 @Component
+@RequiredArgsConstructor
 public class DiscordBotRunner extends ListenerAdapter implements CommandLineRunner {
 
     private final DiscordBotEnvironment discordBotEnvironment;
@@ -51,18 +52,6 @@ public class DiscordBotRunner extends ListenerAdapter implements CommandLineRunn
     private final DiscordProvider discordProvider;
     private final DiscordTokenAuthentication discordTokenAuthentication;
     private final MessageChannelOutputStream messageChannelOutputStream;
-
-    @Autowired
-    public DiscordBotRunner(DiscordBotEnvironment discordBotEnvironment,
-        CommandExecutor commandExecutor, DiscordProvider discordProvider,
-        DiscordTokenAuthentication discordTokenAuthentication,
-        MessageChannelOutputStream messageChannelOutputStream) {
-        this.discordBotEnvironment = discordBotEnvironment;
-        this.commandExecutor = commandExecutor;
-        this.discordProvider = discordProvider;
-        this.discordTokenAuthentication = discordTokenAuthentication;
-        this.messageChannelOutputStream = messageChannelOutputStream;
-    }
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
