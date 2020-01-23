@@ -45,6 +45,7 @@
 		<jda.version>4.1.0_99</jda.version>
 		<apache.commons.version>3.9</apache.commons.version>
 		<picocli.version>4.1.4</picocli.version>
+		<lombok.version>1.18.10</lombok.version>
 
 		<junit.version>5.5.2</junit.version>
 		<mockito.junit.version>3.2.4</mockito.junit.version>
@@ -89,7 +90,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.18.10</version>
+			<version>${lombok.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
