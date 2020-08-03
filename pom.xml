@@ -44,7 +44,7 @@
 		<chatbot.engine.version>0.0.4</chatbot.engine.version>
 		<jda.version>4.1.1_110</jda.version>
 		<apache.commons.version>3.9</apache.commons.version>
-		<picocli.version>4.2.0</picocli.version>
+		<picocli.version>4.5.0</picocli.version>
 		<lombok.version>1.18.12</lombok.version>
 
 		<junit.version>5.5.2</junit.version>
